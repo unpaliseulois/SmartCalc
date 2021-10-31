@@ -1,0 +1,12 @@
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\bin\Debug\net5.0\Global.deps.json
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\bin\Debug\net5.0\Global.dll
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\bin\Debug\net5.0\ref\Global.dll
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\bin\Debug\net5.0\Global.pdb
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\Global.csproj.AssemblyReference.cache
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\Global.GeneratedMSBuildEditorConfig.editorconfig
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\Global.AssemblyInfoInputs.cache
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\Global.AssemblyInfo.cs
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\Global.csproj.CoreCompileInputs.cache
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\Global.dll
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\ref\Global.dll
+D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Global\obj\Debug\net5.0\Global.pdb
