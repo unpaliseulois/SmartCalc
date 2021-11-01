@@ -57,10 +57,23 @@ namespace SmartCalc.Global.CodeAnalysis
 
         private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
         {
-            var left = ParsePrimaryExpression();
+            ExpressionSyntax left;
+            var unaryOperatoPrecedence = Current.Kind.GetUnaryOperatorPrecedence();
+            if (unaryOperatoPrecedence != 0 && unaryOperatoPrecedence >= parentPrecedence)
+            {
+                var operatorToken = NextToken();
+                var operand = ParseExpression(unaryOperatoPrecedence);
+                left = new UnaryExpressionSyntax(operatorToken, operand);
+
+            }
+            else
+            {
+                left = ParsePrimaryExpression();
+
+            }
 
             while (true)
-            {                
+            {
                 var precedence = Current.Kind.GetBinaryOperatorPrecedence();
 
                 if (precedence == 0 || precedence <= parentPrecedence)
@@ -72,7 +85,7 @@ namespace SmartCalc.Global.CodeAnalysis
             }
             return left;
         }
-        
+
         private ExpressionSyntax ParsePrimaryExpression()
         {
             if (Current.Kind == SyntaxKind.OpenParenthsisToken)

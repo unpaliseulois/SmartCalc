@@ -16,8 +16,9 @@ namespace SmartCalc.Global.CodeAnalysis
 
         // Expressions
         LiteralExpression,
+        UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression        
+        ParenthesizedExpression
     }
 }
 

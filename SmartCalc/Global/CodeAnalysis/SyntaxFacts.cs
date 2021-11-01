@@ -1,6 +1,17 @@
 namespace SmartCalc.Global.CodeAnalysis
 {
     internal static class SyntaxFacts{
+        public static int GetUnaryOperatorPrecedence(this SyntaxKind kind)
+        {
+            switch (kind)
+            {                
+                case SyntaxKind.PlusToken:
+                case SyntaxKind.MinusToken:
+                    return 3;                
+                default:
+                    return 0;
+            }
+        }
         public static int GetBinaryOperatorPrecedence(this SyntaxKind kind)
         {
             switch (kind)
