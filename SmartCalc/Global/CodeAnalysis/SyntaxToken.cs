@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SmartCalc.Global.CodeAnalysis
 {
-    public class SyntaxToken : SyntaxNode
+    public sealed class SyntaxToken : SyntaxNode
     {
         public SyntaxToken(SyntaxKind kind, int position, string text, object value)
         {

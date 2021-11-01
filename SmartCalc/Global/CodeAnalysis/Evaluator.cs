@@ -4,7 +4,7 @@ using System;
 
 namespace SmartCalc.Global.CodeAnalysis
 {
-    public class Evaluator
+    public sealed class Evaluator
     {
         private ExpressionSyntax _root;
         public Evaluator(ExpressionSyntax root)
@@ -20,8 +20,8 @@ namespace SmartCalc.Global.CodeAnalysis
         {
             // BinaryExpression
             // NumberExpression
-            if (node is NumberExpressionSyntax n)
-                return (int)n.NumberToken.Value;
+            if (node is LiteralExpressionSyntax n)
+                return (int)n.LiteralToken.Value;
             if (node is BinaryExpressionSyntax b)
             {
                 var left = EvaluateExpression(b.Left);

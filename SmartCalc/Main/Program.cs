@@ -2,22 +2,21 @@
 using System.Linq;
 using static System.Console;
 using static System.ConsoleColor;
+using static System.Environment;
 using SmartCalc.Global.CodeAnalysis;
-
-
 
 namespace SmartCalc.Main
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            bool displayTree = false;
+            var displayTree = false;
 
             while (true)
             {
                 var appName = "SmartCalc";
-                var userName = Environment.UserName;
+                var userName = UserName;
                 userName = userName[0].ToString().ToUpper() + userName.Substring(1);
 
                 Write($"{userName}@{appName} :: ");
@@ -92,7 +91,7 @@ namespace SmartCalc.Main
                 {
                     var e = new Evaluator(syntaxTree.Root);
                     var result = e.Evaluate();
-                    ForegroundColor = DarkMagenta;
+                    ForegroundColor = Gray;
                     WriteLine(result);
                     ResetColor();
                 }
