@@ -15,9 +15,9 @@ namespace SmartCalc.Global.CodeAnalysis
         CloseParenthsisToken,
 
         // Expressions
-        NumberExpression,
+        LiteralExpression,
         BinaryExpression,
-        ParenthesizedExpression
+        ParenthesizedExpression        
     }
 }
 
