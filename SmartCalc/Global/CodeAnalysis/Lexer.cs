@@ -27,7 +27,7 @@ namespace SmartCalc.Global.CodeAnalysis
             _position++;
         }
 
-        public SyntaxToken NextToken()
+        public SyntaxToken Lex()
         {
             // <numbers>
             // + - * ( ) ^ ** .
