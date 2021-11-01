@@ -64,7 +64,7 @@ namespace SmartCalc.Main
                     continue;
                 }
                 // Clear
-                string[] clearCmmands = { "cc", "cls", "clear", "wipe", "wc","clean" };
+                string[] clearCmmands = { "cc", "cls", "clear", "wipe", "wc","clean", "cs" };
                 if (clearCmmands.Contains(line.ToLower()))
                 {
                     Clear();
