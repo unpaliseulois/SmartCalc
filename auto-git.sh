@@ -73,38 +73,109 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
+function PrintCenter(){
+	if [ "$1" != "" ]
+	then
+		echo "$1" | sed  -e :a -e "s/^.\{1,$(tput cols)\}$/ & /;ta" | tr -d '\n' | head -c $(tput cols)
+		return 0
+	else
+		return 1
+	fi
+}
+
+display_file_center(){
+    columns="$(tput cols)"
+    while IFS= read -r line; do
+        printf "%*s\n" $(( (${#line} + columns) / 2)) "$line"
+    done < "$1"
+}
+
+display_file_right(){
+    columns="$(tput cols)"
+    while IFS= read -r line; do
+        printf "%*s\n" $columns "$line"
+    done < "$1"
+}
+
+Right(){
+    columns="$(tput cols)"    
+    printf "%*s\n" $columns "$1"
+    
+}
+
+Center(){
+	if [ "$1" != "" ]
+	then
+    	columns="$(tput cols)"    
+    	printf "%*s\n" $(( (${#1} + columns) / 2)) "${1}"
+    	return 0
+	else
+		return 1
+	fi
+}
+
+function Line()
+{ 
+	local l=
+ 	builtin printf -vl "%${2:-${COLUMNS:-`tput cols 2>&-||echo 80`}}s\n" \
+		&& echo -e "${l// /${1:-=}}"
+}
+
+function Banner()
+{
+	if [ "$#" -eq 2 ]
+	then
+		Line "${1}"
+		Center "${2}"
+		echo
+		Line "${1}"
+		return 0
+	else
+		echo -e "${BRed}"
+		echo "Illegal number of parameters."
+		echo " Usage: Banner <Border Char> <Banner Text>."
+		echo -e "${ResetColor}"
+		return 1
+	fi
+}
+
 if [ "$1" != "" ] && [ "$2" != "" ]
 then
-	echo -e "${BBlue}"
-	echo "****************************************************"
-	echo "*                       STATUS                     *"
-	echo "****************************************************"
+	echo -e "${BBlue}"	
+	Banner '-' 'STATUS'
 	echo -e "${ResetColor}"
+
 	git status
+
 	echo -e "${BBlue}"
-	echo "****************************************************"
-	echo "                  ADD MODIFICATION"
-	echo "****************************************************"
+	Banner '-' 'ADD MODIFICATION'
 	echo -e "${ResetColor}"
+
 	git add .
+
 	echo -e "${BBlue}"
-	echo "****************************************************"
-	echo "                     NEW STATUS"
-	echo "****************************************************"
+	Banner '-' 'NEW STATUS'
 	echo -e "${ResetColor}"
+
 	git status
+
 	echo -e "${BBlue}"
-	echo "****************************************************"
-	echo "                 COMMIT MODIFICATION"
-	echo "****************************************************"
+	Banner '-' 'COMMIT MODIFICATION'
 	echo -e "${ResetColor}"
+
 	git commit -m "$1"
+
 	echo -e "${BBlue}"
-	echo "****************************************************"
-	echo "                   PUSH MODIFICATION"
-	echo "****************************************************"
+	Banner '-' 'PUSH MODIFICATION'
 	echo -e "${ResetColor}"
+
 	git push -u origin "$2"
+
+	echo
+	echo "${BGreen}The git process has completed successfully."
+	echo -e "${ResetColor}"
+
+	return 0
 else
 	echo -e "${BRed}"
 	if [ "$1" == "" ]
@@ -116,4 +187,8 @@ else
 		echo "Git branch to push modification in is missing."
 	fi
 	echo -e "${ResetColor}"
+	return 0
 fi
+
+
+
