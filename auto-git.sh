@@ -139,40 +139,40 @@ function Banner()
 	fi
 }
 
+function DisplayBanner(){
+	if [ "$#" -eq 2 ]
+	then
+		echo -e "${2}"
+		Banner '-' "${1}"
+		echo -e "${ResetColor}"
+		return 0
+	else
+		echo -e "${BRed}Illegal number of parameters.${ResetColor}"
+		echo
+		echo -e "${BYellow} Usage: DisplayBanner <BannerText> <BannerColor>.${ResetColor}"		
+		return 1
+	fi
+}
+
 if [ "$1" != "" ] && [ "$2" != "" ]
 then
-	echo -e "${BBlue}"	
-	Banner '-' 'STATUS'
-	echo -e "${ResetColor}"
-
+	DisplayBanner "STATUS" $BBlue
 	git status
 	statusResult=$?
 
-	echo -e "${BBlue}"
-	Banner '-' 'ADD MODIFICATION'
-	echo -e "${ResetColor}"
-
+	DisplayBanner "ADD MODIFICATION" $BBlue
 	git add .
 	addResult=$?
 
-	echo -e "${BBlue}"
-	Banner '-' 'NEW STATUS'
-	echo -e "${ResetColor}"
-
+	DisplayBanner "NEW STATUS" $BBlue	
 	git status
 	newStatusResult=$?
 
-	echo -e "${BBlue}"
-	Banner '-' 'COMMIT MODIFICATION'
-	echo -e "${ResetColor}"
-
+	DisplayBanner "COMMIT MODIFICATION" $BBlue
 	git commit -m "$1"
 	commitResult=$?
 
-	echo -e "${BBlue}"
-	Banner '-' 'PUSH MODIFICATION'
-	echo -e "${ResetColor}"
-
+	DisplayBanner "PUSH MODIFICATION" $BBlue
 	git push -u origin "$2"
 	pushResult=$?
 
@@ -181,26 +181,30 @@ then
 		&& [ "$newStatusResult" == "0" ] \
 		&& [ "$commitResult" == "0" ] \
 		&& [ "$pushResult" == "0" ]
-	then
-		echo
-		echo -e "${BGreen}The git process has completed successfully."
-	else
-		echo
-		echo -e "${BRed}The git process has terminated improperly."
-	fi
-	#echo
-	echo -e "${ResetColor}"
+	then		
+		echo -e "${BGreen}The git process has completed successfully.${ResetColor}"
+	else		
+		echo -e "${BRed}The git process has terminated improperly.${ResetColor}"
+	fi	
 else
 	echo -e "${BRed}"
+	echo "Illegal number of parameters:"
+	echo
+
 	if [ "$1" == "" ]
 	then		
-		echo "Commit message is missing."
-
-	elif [ "$2" == "" ]
-	then
-		echo "Git branch to push modification in is missing."
+		echo " -> Commit message is missing."
 	fi
-	echo -e "${ResetColor}"
+
+	echo
+
+	if [ "$2" == "" ]
+	then
+		echo " -> Git branch to push modification in is missing."
+	fi
+
+	echo	
+	echo -e "${BYellow}Usage: auto-git <Commit message> <Branch Name>.${ResetColor}"
 fi
 
 
