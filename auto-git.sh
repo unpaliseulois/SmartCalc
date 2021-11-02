@@ -172,10 +172,8 @@ then
 	git push -u origin "$2"
 
 	echo
-	echo "${BGreen}The git process has completed successfully."
+	echo -e "${BGreen}The git process has completed successfully."
 	echo -e "${ResetColor}"
-
-	return 0
 else
 	echo -e "${BRed}"
 	if [ "$1" == "" ]
@@ -187,7 +185,6 @@ else
 		echo "Git branch to push modification in is missing."
 	fi
 	echo -e "${ResetColor}"
-	return 0
 fi
 
 
