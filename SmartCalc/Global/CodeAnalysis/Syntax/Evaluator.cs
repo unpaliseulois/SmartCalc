@@ -2,7 +2,7 @@
 using System;
 
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     public sealed class Evaluator
     {

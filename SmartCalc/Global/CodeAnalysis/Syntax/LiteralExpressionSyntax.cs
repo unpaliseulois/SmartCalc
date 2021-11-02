@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     public sealed class LiteralExpressionSyntax : ExpressionSyntax
     {

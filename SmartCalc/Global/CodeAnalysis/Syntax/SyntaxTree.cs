@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     public sealed class SyntaxTree
     {

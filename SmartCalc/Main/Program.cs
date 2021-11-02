@@ -3,7 +3,7 @@ using System.Linq;
 using static System.Console;
 using static System.ConsoleColor;
 using static System.Environment;
-using SmartCalc.Global.CodeAnalysis;
+using SmartCalc.Global.CodeAnalysis.Syntax;
 
 namespace SmartCalc.Main
 {

@@ -1,4 +1,4 @@
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     internal static class SyntaxFacts{
         public static int GetUnaryOperatorPrecedence(this SyntaxKind kind)
