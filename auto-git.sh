@@ -146,33 +146,49 @@ then
 	echo -e "${ResetColor}"
 
 	git status
+	statusResult=$?
 
 	echo -e "${BBlue}"
 	Banner '-' 'ADD MODIFICATION'
 	echo -e "${ResetColor}"
 
 	git add .
+	addResult=$?
 
 	echo -e "${BBlue}"
 	Banner '-' 'NEW STATUS'
 	echo -e "${ResetColor}"
 
 	git status
+	newStatusResult=$?
 
 	echo -e "${BBlue}"
 	Banner '-' 'COMMIT MODIFICATION'
 	echo -e "${ResetColor}"
 
 	git commit -m "$1"
+	commitResult=$?
 
 	echo -e "${BBlue}"
 	Banner '-' 'PUSH MODIFICATION'
 	echo -e "${ResetColor}"
 
 	git push -u origin "$2"
+	pushResult=$?
 
+	if [ "$statusResult" == "0" ] \
+		&& [ "$addResult" == "0" ] \
+		&& [ "$newStatusResult" == "0" ] \
+		&& [ "$commitResult" == "0" ] \
+		&& [ "$pushResult" == "0" ]
+	then
+		echo
+		echo -e "${BGreen}The git process has completed successfully."
+	else
+		echo
+		echo -e "${BRed}The git process has terminated improperly."
+	fi
 	echo
-	echo -e "${BGreen}The git process has completed successfully."
 	echo -e "${ResetColor}"
 else
 	echo -e "${BRed}"
