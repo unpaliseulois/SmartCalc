@@ -7,7 +7,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             {                
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
-                    return 3;                
+                    return 4;                
                 default:
                     return 0;
             }
@@ -16,6 +16,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             switch (kind)
             {
+                case SyntaxKind.HatToken:
+                case SyntaxKind.StarStarToken:
+                    return 3;
                 case SyntaxKind.StarToken:
                 case SyntaxKind.SlashToken:
                     return 2;

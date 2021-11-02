@@ -188,7 +188,7 @@ then
 		echo
 		echo -e "${BRed}The git process has terminated improperly."
 	fi
-	echo
+	#echo
 	echo -e "${ResetColor}"
 else
 	echo -e "${BRed}"

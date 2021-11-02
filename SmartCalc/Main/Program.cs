@@ -4,6 +4,8 @@ using static System.Console;
 using static System.ConsoleColor;
 using static System.Environment;
 using SmartCalc.Global.CodeAnalysis.Syntax;
+using SmartCalc.Global.CodeAnalysis.Binding;
+using System.Collections.Generic;
 
 namespace SmartCalc.Main
 {
@@ -31,13 +33,13 @@ namespace SmartCalc.Main
                     if (displayTree == false)
                     {
                         displayTree = true;
-                        ForegroundColor=DarkGreen;
+                        ForegroundColor = DarkGreen;
                         msg = "Display trees is enabled.";
 
                     }
                     else
                     {
-                        ForegroundColor=DarkYellow;
+                        ForegroundColor = DarkYellow;
                         msg = "Display trees is already enabled.";
                     }
                     WriteLine(msg);
@@ -64,7 +66,7 @@ namespace SmartCalc.Main
                     continue;
                 }
                 // Clear
-                string[] clearCmmands = { "cc", "cls", "clear", "wipe", "wc","clean", "cs" };
+                string[] clearCmmands = { "cc", "cls", "clear", "wipe", "wc", "clean", "cs" };
                 if (clearCmmands.Contains(line.ToLower()))
                 {
                     Clear();
@@ -79,6 +81,10 @@ namespace SmartCalc.Main
                 }
 
                 var syntaxTree = SyntaxTree.Parse(line);
+                var binder = new Binder();
+                var boundExpression = binder.BindExpression(syntaxTree.Root);                
+
+                var diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
 
                 if (displayTree)
                 {
@@ -87,9 +93,9 @@ namespace SmartCalc.Main
                     ResetColor();
                 }
 
-                if (!syntaxTree.Diagnostics.Any())
+                if (!diagnostics.Any())
                 {
-                    var e = new Evaluator(syntaxTree.Root);
+                    var e = new Evaluator(boundExpression);
                     var result = e.Evaluate();
                     ForegroundColor = Gray;
                     WriteLine(result);
@@ -100,9 +106,9 @@ namespace SmartCalc.Main
                     ForegroundColor = DarkRed;
                     foreach (var diagnostic in syntaxTree.Diagnostics)
                         WriteLine(diagnostic);
-                        ResetColor();
+                    ResetColor();
                 }
-                
+
             }
         }
         static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)

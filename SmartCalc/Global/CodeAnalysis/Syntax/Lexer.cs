@@ -69,6 +69,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 case '-':
                     _position++;
                     return new SyntaxToken(SyntaxKind.MinusToken, start, "-", null);
+                case '^':
+                    _position++;
+                    return new SyntaxToken(SyntaxKind.HatToken, start, "^", null);
                 case '*':
                     _position++;
                     return new SyntaxToken(SyntaxKind.StarToken, start, "*", null);
