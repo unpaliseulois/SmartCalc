@@ -104,7 +104,7 @@ namespace SmartCalc.Main
                 else
                 {
                     ForegroundColor = DarkRed;
-                    foreach (var diagnostic in syntaxTree.Diagnostics)
+                    foreach (var diagnostic in diagnostics)
                         WriteLine(diagnostic);
                     ResetColor();
                 }

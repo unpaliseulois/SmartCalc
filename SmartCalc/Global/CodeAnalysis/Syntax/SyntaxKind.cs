@@ -7,6 +7,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         EndOfFileToken,
         NumberToken,
         WhiteSpaceToken,
+        HatToken,
         StarStarToken,
         StarToken,
         SlashToken,
@@ -14,13 +15,18 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         MinusToken,        
         OpenParenthsisToken,
         CloseParenthsisToken,
+        IdentifierToken,
+
+        // Keywords
+        FalseKeyword,
+        TrueKeyword,
 
         // Expressions
         LiteralExpression,
         UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression,
-        HatToken
+        ParenthesizedExpression          
+        
     }
 }
 

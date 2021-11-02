@@ -1,3 +1,5 @@
+using System;
+
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     internal static class SyntaxFacts{
@@ -27,6 +29,19 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return 1;                
                 default:
                     return 0;
+            }
+        }
+        
+        public static SyntaxKind GetKeywordKind(string text)
+        {
+            switch (text)
+            {
+                case "false":
+                return SyntaxKind.FalseKeyword;
+                case "true":
+                return SyntaxKind.TrueKeyword;
+                default:
+                    return SyntaxKind.IdentifierToken;
             }
         }
     }

@@ -20,13 +20,13 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
                 case SyntaxKind.BinaryExpression:
                     return BindBinaryExpression((BinaryExpressionSyntax)syntax);
                 default:
-                    throw new Exception($"Unexpected syntax '{syntax.Kind}'");
+                    throw new Exception($"Unexpected syntax '{syntax.Kind}'.");
             }
         }
 
         private BoundExpression BindLitaralExpression(LiteralExpressionSyntax syntax)
         {
-            var value = syntax.LiteralToken.Value as int? ?? 0;
+            var value = syntax.Value ?? 0;
             return new BoundLiteralExpression(value);
         }
 
@@ -50,7 +50,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
 
             if(boundOperatorKind == null){
-                _diagnostics.Add(($"Binary operator '{syntax.OperatorToken.Text}' is not defined for types '{boundLeft.Type.ToString().Split('.')[1]}' and '{boundLeft.Type.ToString().Split('.')[1]}'."));
+                _diagnostics.Add(($"Binary operator '{syntax.OperatorToken.Text}' is not defined for types '{boundLeft.Type.ToString().Split('.')[1]}' and '{boundRight.Type.ToString().Split('.')[1]}'."));
                 return boundLeft;
             }
 
