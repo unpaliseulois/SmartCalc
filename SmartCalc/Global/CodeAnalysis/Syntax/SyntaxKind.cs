@@ -12,10 +12,13 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         StarToken,
         SlashToken,
         PlusToken,
-        MinusToken,        
+        MinusToken,
+        BangToken,
+        AmpersandAmpersandToken,
+        PipePipeToken,        
         OpenParenthsisToken,
         CloseParenthsisToken,
-        IdentifierToken,
+        IdentifierToken,        
 
         // Keywords
         FalseKeyword,
@@ -25,8 +28,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         LiteralExpression,
         UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression          
-        
+        ParenthesizedExpression,
+        PipeToken,
+        AmpersandToken
     }
 }
 

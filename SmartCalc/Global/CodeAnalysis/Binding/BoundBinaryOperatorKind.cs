@@ -6,7 +6,9 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         Multiplication,
         Division,
         Addition,
-        Substraction
+        Substraction,
+        LogicalAnd,
+        LogicalOr
     }
 
 }

@@ -13,15 +13,18 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             _text = text;
         }
         public IEnumerable<string> Diagnostics => _diagnostics;
-        private char Current
+        private char Current => Peek(0);
+        private char Lookahead => Peek(1);
+
+
+        private char Peek(int offset)
         {
-            get
-            {
-                if (_position >= _text.Length)
-                    return '\0';
-                return _text[_position];
-            }
+            var index = _position + offset;
+            if (index >= _text.Length)
+                return '\0';
+            return _text[index];
         }
+
         private void Next()
         {
             _position++;
@@ -62,7 +65,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             }
 
             // true - false
-            if(char.IsLetter(Current))
+            if (char.IsLetter(Current))
             {
                 while (char.IsLetter(Current))
                     Next();
@@ -76,30 +79,78 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             switch (Current)
             {
                 case '+':
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.PlusToken, start, "+", null);
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.PlusToken, start, "+", null);
+                    }
                 case '-':
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.MinusToken, start, "-", null);
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.MinusToken, start, "-", null);
+                    }
                 case '^':
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.HatToken, start, "^", null);
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.HatToken, start, "^", null);
+                    }
                 case '*':
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.StarToken, start, "*", null);
+                    if (Lookahead == '*')
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.StarStarToken, start, "**", null);
+                    }
+                    else
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.StarToken, start, "*", null);
+                    }
                 case '/':
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.SlashToken, start, "/", null);
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.SlashToken, start, "/", null);
+                    }
                 case '(':
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.OpenParenthsisToken, start, "(", null);
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.OpenParenthsisToken, start, "(", null);
+                    }
                 case ')':
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.CloseParenthsisToken, start, ")", null);
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.CloseParenthsisToken, start, ")", null);
+                    }
+                case '!':
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.BangToken, start, "!", null);
+                    }
+                case '&':
+                    if (Lookahead == '&')
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&", null);
+                    }else
+                        
+                    {
+                        _position += 1;
+                        return new SyntaxToken(SyntaxKind.AmpersandToken, start, "&", null);
+                    }
+                    
+                case '|':
+                    if (Lookahead == '|')
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.PipePipeToken, start, "||", null);
+                    }else{
+                        _position += 1;
+                        return new SyntaxToken(SyntaxKind.PipeToken, start, "|", null);
+                    }                    
                 default:
-                    _diagnostics.Add($"ERROR: bad character input: '{Current}'.");
-                    _position++;
-                    return new SyntaxToken(SyntaxKind.BadToken, start, _text.Substring(_position - 1, 1), null);
+                    {
+                        _position++;
+                        _diagnostics.Add($"ERROR: bad character input: '{Current}'.");
+                        return new SyntaxToken(SyntaxKind.BadToken, start, _text.Substring(_position - 1, 1), null);
+                    }
             }
 
         }
