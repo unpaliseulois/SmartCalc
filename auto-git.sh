@@ -159,6 +159,7 @@ then
 	DisplayBanner "STATUS" $BBlue
 	git status
 	statusResult=$?
+	echo
 
 	DisplayBanner "ADD MODIFICATION" $BBlue
 	git add .
@@ -171,11 +172,12 @@ then
 	DisplayBanner "COMMIT MODIFICATION" $BBlue
 	git commit -m "$1"
 	commitResult=$?
+	echo
 
 	DisplayBanner "PUSH MODIFICATION" $BBlue
 	git push -u origin "$2"
 	pushResult=$?
-
+	echo
 	if [ "$statusResult" == "0" ] \
 		&& [ "$addResult" == "0" ] \
 		&& [ "$newStatusResult" == "0" ] \
