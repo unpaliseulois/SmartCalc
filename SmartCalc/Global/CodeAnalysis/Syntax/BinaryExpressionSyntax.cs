@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
-    public sealed class BinaryExpressionSyntax : ExpressionSyntax
+    internal sealed class BinaryExpressionSyntax : ExpressionSyntax
     {
         public BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right)
         {

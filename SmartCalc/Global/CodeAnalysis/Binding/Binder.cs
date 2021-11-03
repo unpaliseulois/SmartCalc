@@ -5,10 +5,10 @@ using SmartCalc.Global.CodeAnalysis.Syntax;
 
 namespace SmartCalc.Global.CodeAnalysis.Binding
 {
-    public sealed class Binder
+    internal sealed class Binder
     {
-        private readonly List<string> _diagnostics = new List<string>();
-        public IEnumerable<string> Diagnostics => _diagnostics;
+        private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+        public DiagnosticBag Diagnostics => _diagnostics;
         public BoundExpression BindExpression(ExpressionSyntax syntax)
         {
             switch (syntax.Kind)
@@ -39,7 +39,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
 
             if (boundOperator == null)
             {
-                _diagnostics.Add(($"Unary operator '{syntax.OperatorToken.Text}' is not defined for type '{boundOperand.Type.ToString().Split('.')[1]}'."));
+                _diagnostics.RepoetUndifinedUnaryOperator(syntax.OperatorToken.Span,syntax.OperatorToken.Text,boundOperand.Type);
                 return boundOperand;
             }
 
@@ -54,7 +54,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
 
             if (boundOperator == null)
             {
-                _diagnostics.Add(($"Binary operator '{syntax.OperatorToken.Text}' is not defined for types '{boundLeft.Type.ToString().Split('.')[1]}' and '{boundRight.Type.ToString().Split('.')[1]}'."));
+                _diagnostics.RepoetUndifinedBinaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundLeft.Type, boundRight.Type);
                 return boundLeft;
             }
 

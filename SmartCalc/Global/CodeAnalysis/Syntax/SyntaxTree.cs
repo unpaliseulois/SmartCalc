@@ -6,13 +6,13 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     public sealed class SyntaxTree
     {
-        public SyntaxTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken, bool enabled = false)
+        public SyntaxTree(IEnumerable<Diagnostic> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken, bool enabled = false)
         {
             Diagnostics = diagnostics.ToArray();
             Root = root;
             EndOfFileToken = endOfFileToken;
         }
-        public IReadOnlyList<string> Diagnostics { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
         public ExpressionSyntax Root { get; }
         public SyntaxToken EndOfFileToken { get; }
 

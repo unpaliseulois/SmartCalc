@@ -7,8 +7,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
     {
         private readonly SyntaxToken[] _tokens;
         private int _position;
-        private List<string> _diagnostics = new List<string>();
-        public IEnumerable<string> Diagnostics => _diagnostics;
+        private DiagnosticBag _diagnostics = new DiagnosticBag();
+        public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(string text)
         {
             var tokens = new List<SyntaxToken>();
@@ -44,7 +44,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             if (Current.Kind == kind)
                 return NextToken();
-            _diagnostics.Add($"ERROR: Unexpected token '{Current.Kind}', expected '{kind}'.");
+            _diagnostics.ReportUnexpectedToken(Current.Span,Current.Kind,kind);
             return new SyntaxToken(kind, Current.Position, null, null);
 
         }

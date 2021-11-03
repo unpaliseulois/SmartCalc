@@ -81,10 +81,10 @@ namespace SmartCalc.Main
                 }
 
                 var syntaxTree = SyntaxTree.Parse(line);
-                var binder = new Binder();
-                var boundExpression = binder.BindExpression(syntaxTree.Root);                
+                var compilation = new Compilation(syntaxTree);
+                var result = compilation.Evaluate();
 
-                var diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
+                var diagnostics = result.Diagnostics;
 
                 if (displayTree)
                 {
@@ -95,20 +95,31 @@ namespace SmartCalc.Main
 
                 if (!diagnostics.Any())
                 {
-                    var e = new Evaluator(boundExpression);
-                    var result = e.Evaluate();
+
                     ForegroundColor = Gray;
-                    WriteLine(result);
+                    WriteLine(result.Value);
                     ResetColor();
                 }
                 else
                 {
-                    ForegroundColor = DarkRed;
                     foreach (var diagnostic in diagnostics)
-                        WriteLine(diagnostic);
+                    {
+                        ForegroundColor = DarkRed;
+                        WriteLine($"\n{diagnostic}\n");
+                        ResetColor();
+
+                        var prefix = line.Substring(0, diagnostic.Span.Start);
+                        var error = line.Substring(diagnostic.Span.Start, diagnostic.Span.Length);
+                        var sufix = line.Substring(diagnostic.Span.End);
+
+                        Write($"    {prefix}");
+                        ForegroundColor = DarkRed;
+                        Write(error);
+                        ResetColor();
+                        WriteLine($"{sufix}\n");
+                    }
                     ResetColor();
                 }
-
             }
         }
         static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
