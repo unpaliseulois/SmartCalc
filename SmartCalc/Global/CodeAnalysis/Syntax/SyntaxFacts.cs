@@ -11,7 +11,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
                 case SyntaxKind.BangToken:
-                    return 6;
+                    return 7;
                 default:
                     return 0;
             }
@@ -22,12 +22,15 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             {
                 case SyntaxKind.HatToken:
                 case SyntaxKind.StarStarToken:
-                    return 5;
+                    return 6;
                 case SyntaxKind.StarToken:
                 case SyntaxKind.SlashToken:
-                    return 4;
+                    return 5;
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
+                    return 4;
+                case SyntaxKind.EqualsEqualsToken:
+                case SyntaxKind.BangEqualsToken:
                     return 3;
                 case SyntaxKind.AmpersandAmpersandToken:
                     return 2;

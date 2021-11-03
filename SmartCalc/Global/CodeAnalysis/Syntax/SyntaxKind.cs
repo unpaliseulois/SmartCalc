@@ -15,7 +15,12 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         MinusToken,
         BangToken,
         AmpersandAmpersandToken,
-        PipePipeToken,        
+        PipePipeToken,
+        PipeToken,
+        AmpersandToken,
+        EqualsEqualsToken,
+        EqualsToken,
+        BangEqualsToken   ,     
         OpenParenthsisToken,
         CloseParenthsisToken,
         IdentifierToken,        
@@ -28,9 +33,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         LiteralExpression,
         UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression,
-        PipeToken,
-        AmpersandToken
+        ParenthesizedExpression        
     }
 }
 

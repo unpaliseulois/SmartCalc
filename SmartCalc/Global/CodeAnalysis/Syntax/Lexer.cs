@@ -120,6 +120,12 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                         return new SyntaxToken(SyntaxKind.CloseParenthsisToken, start, ")", null);
                     }
                 case '!':
+                    if (Lookahead == '=')
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.BangEqualsToken, start, "!=", null);
+                    }
+                    else
                     {
                         _position++;
                         return new SyntaxToken(SyntaxKind.BangToken, start, "!", null);
@@ -129,22 +135,36 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     {
                         _position += 2;
                         return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&", null);
-                    }else
-                        
+                    }
+                    else
+
                     {
                         _position += 1;
                         return new SyntaxToken(SyntaxKind.AmpersandToken, start, "&", null);
                     }
-                    
+
                 case '|':
                     if (Lookahead == '|')
                     {
                         _position += 2;
                         return new SyntaxToken(SyntaxKind.PipePipeToken, start, "||", null);
-                    }else{
+                    }
+                    else
+                    {
                         _position += 1;
                         return new SyntaxToken(SyntaxKind.PipeToken, start, "|", null);
-                    }                    
+                    }
+                case '=':
+                    if (Lookahead == '=')
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.EqualsEqualsToken, start, "==", null);
+                    }
+                    else
+                    {
+                        _position += 1;
+                        return new SyntaxToken(SyntaxKind.EqualsToken, start, "=", null);
+                    }
                 default:
                     {
                         _position++;

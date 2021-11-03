@@ -8,7 +8,9 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         Addition,
         Substraction,
         LogicalAnd,
-        LogicalOr
+        LogicalOr,
+        Equals,
+        NotEquals
     }
 
 }
