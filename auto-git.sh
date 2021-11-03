@@ -74,13 +74,13 @@ On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
 function PrintCenter(){
-	if [ "$1" != "" ]
-	then
-		echo "$1" | sed  -e :a -e "s/^.\{1,$(tput cols)\}$/ & /;ta" | tr -d '\n' | head -c $(tput cols)
-		return 0
-	else
-		return 1
-	fi
+    if [ "$1" != "" ]
+    then
+        echo "$1" | sed  -e :a -e "s/^.\{1,$(tput cols)\}$/ & /;ta" | tr -d '\n' | head -c $(tput cols)
+        return 0
+    else
+        return 1
+    fi
 }
 
 display_file_center(){
@@ -98,145 +98,162 @@ display_file_right(){
 }
 
 Right(){
-    columns="$(tput cols)"    
+    columns="$(tput cols)"
     printf "%*s\n" $columns "$1"
     
 }
 
 Center(){
-	if [ "$1" != "" ]
-	then
-    	columns="$(tput cols)"    
-    	printf "%*s\n" $(( (${#1} + columns) / 2)) "${1}"
-    	return 0
-	else
-		return 1
-	fi
+    if [ "$1" != "" ]
+    then
+        columns="$(tput cols)"
+        printf "%*s\n" $(( (${#1} + columns) / 2)) "${1}"
+        return 0
+    else
+        return 1
+    fi
 }
 
 function Line()
-{ 
-	local l=
- 	builtin printf -vl "%${2:-${COLUMNS:-`tput cols 2>&-||echo 80`}}s\n" \
-		&& echo -e "${l// /${1:-=}}"
+{
+    local l=
+    builtin printf -vl "%${2:-${COLUMNS:-`tput cols 2>&-||echo 80`}}s\n" \
+    && echo -e "${l// /${1:-=}}"
 }
 
 function Banner()
 {
-	if [ "$#" -eq 2 ]
-	then
-		Line "${1}"
-		Center "${2}"
-		echo
-		Line "${1}"
-		return 0
-	else
-		echo -e "${BRed}"
-		echo "Illegal number of parameters."
-		echo " Usage: Banner <Border Char> <Banner Text>."
-		echo -e "${ResetColor}"
-		return 1
-	fi
+    if [ "$#" -eq 2 ]
+    then
+        Line "${1}"
+        Center "${2}"
+        echo
+        Line "${1}"
+        return 0
+    else
+        echo -e "${BRed}"
+        echo "Illegal number of parameters."
+        echo " Usage: Banner <Border Char> <Banner Text>."
+        echo -e "${ResetColor}"
+        return 1
+    fi
 }
 
 function DisplayBanner(){
-	if [ "$#" -eq 2 ]
-	then
-		echo -e "${2}"
-		Banner '-' "${1}"
-		echo -e "${ResetColor}"
-		return 0
-	else
-		echo -e "${BRed}Illegal number of parameters.${ResetColor}"
-		echo
-		echo -e "${BYellow} Usage: DisplayBanner <BannerText> <BannerColor>.${ResetColor}"		
-		return 1
-	fi
+    if [ "$#" -eq 2 ]
+    then
+        echo -e "${2}"
+        Banner '-' "${1}"
+        echo -e "${ResetColor}"
+        return 0
+    else
+        echo -e "${BRed}Illegal number of parameters.${ResetColor}"
+        echo
+        echo -e "${BYellow} Usage: DisplayBanner <BannerText> <BannerColor>.${ResetColor}"
+        return 1
+    fi
 }
 
 function ResultTest(){
-	if [ "$1" == "0" ]
-	then		
-		echo -e "${BGreen}$2${ResetColor}"
-		return 0		
-	else		
-		echo -e "${BRed}$3${ResetColor}"
-		return 1
-	fi	
+    if [ "$1" == "0" ]
+    then
+        echo -e "${BGreen}$2${ResetColor}"
+        return 0
+    else
+        echo -e "${BRed}$3${ResetColor}"
+        return 1
+    fi
+}
+function AutoGit(){
+    
+    
+    
+    if [ "$1" != "" ]
+    then
+        DisplayBanner "STATUS" $BBlue
+        git status
+        statusResult=$?
+        echo
+        
+        DisplayBanner "ADD MODIFICATION" $BBlue
+        git add .
+        addResult=$?
+        
+        echo
+        ResultTest $addResult "Modification added correctly." "Nothing has been changed."
+        echo
+		 if [ "$addResult" != 0 ]
+        then
+            return 1
+        fi  
+		###
+        
+        DisplayBanner "NEW STATUS" $BBlue
+        git status
+        newStatusResult=$?
+        
+        DisplayBanner "COMMIT MODIFICATION" $BBlue
+        
+        if [ "$2" == "" ]
+        then
+            echo
+            git commit -v
+        else
+            echo
+            git commit -m "$2"
+        fi
+        commitResult=$?
+        echo
+        ResultTest $commitResult "Modification commited correctly." "Nothing has been changed."
+        echo        
+        if [ "$commitResult" != 0 ]
+        then
+            return 1
+        fi        
+        DisplayBanner "PUSH MODIFICATION" $BBlue
+        git push -u origin "$1"
+        pushResult=$?
+        echo
+        ResultTest $pushResult "Modification pushed correctly." "Nothing has been changed."
+        echo
+		if [ "$pushResult" != 0 ]
+        then
+            return 1
+        fi
+        if [ "$statusResult" == "0" ] \
+        && [ "$addResult" == "0" ] \
+        && [ "$newStatusResult" == "0" ] \
+        && [ "$commitResult" == "0" ] \
+        && [ "$pushResult" == "0" ]
+        then
+            echo -e "${BGreen}The git process has completed successfully.${ResetColor}"
+        else
+            echo -e "${BRed}The git process has terminated improperly.${ResetColor}"
+        fi
+    else
+        echo -e "${BRed}"
+        echo "Illegal number of parameters:"
+        echo
+        
+        if [ "$2" == "" ]
+        then
+            echo " -> Commit message is missing."
+        fi
+        
+        echo
+        
+        if [ "$1" == "" ]
+        then
+            echo " -> Git branch is missing."
+        fi
+        
+        echo
+        echo -e "${BYellow}Usage: auto-git <Branch Name> <Commit message>."
+        echo -e "OR":
+        echo -e "Usage: auto-git <Branch Name>.${ResetColor}"
+    fi
 }
 
-if [ "$1" != "" ]
-then
-	DisplayBanner "STATUS" $BBlue
-	git status
-	statusResult=$?
-	echo
-
-	DisplayBanner "ADD MODIFICATION" $BBlue
-	git add .
-	addResult=$?
-
-	echo
-	ResultTest $addResult "Modification added correctly." "Nothing has been changed."
-	echo	
-
-	DisplayBanner "NEW STATUS" $BBlue	
-	git status
-	newStatusResult=$?
-
-	DisplayBanner "COMMIT MODIFICATION" $BBlue
-
-	if [ "$2" == "" ]
-	then
-		echo
-		git commit -v
-	else
-		echo
-		git commit -m "$2"
-	fi	
-	commitResult=$?	
-	echo
-	ResultTest $commitResult "Modification commited correctly." "Nothing has been changed."
-	echo	
-
-	DisplayBanner "PUSH MODIFICATION" $BBlue
-	git push -u origin "$1"
-	pushResult=$?
-	echo
-	ResultTest $pushResult "Modification pushed correctly." "Nothing has been changed."
-	echo	
-	if [ "$statusResult" == "0" ] \
-		&& [ "$addResult" == "0" ] \
-		&& [ "$newStatusResult" == "0" ] \
-		&& [ "$commitResult" == "0" ] \
-		&& [ "$pushResult" == "0" ]
-	then		
-		echo -e "${BGreen}The git process has completed successfully.${ResetColor}"
-	else		
-		echo -e "${BRed}The git process has terminated improperly.${ResetColor}"
-	fi	
-else
-	echo -e "${BRed}"
-	echo "Illegal number of parameters:"
-	echo
-
-	if [ "$2" == "" ]
-	then		
-		echo " -> Commit message is missing."
-	fi
-
-	echo
-
-	if [ "$1" == "" ]
-	then
-		echo " -> Git branch is missing."
-	fi
-
-	echo	
-	echo -e "${BYellow}Usage: auto-git <Branch Name> <Commit message>."
-	echo -e "OR":	
-	echo -e "Usage: auto-git <Branch Name>.${ResetColor}"
-fi
-
+AutoGit $1 $2
 
 
