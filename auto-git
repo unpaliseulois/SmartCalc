@@ -177,9 +177,8 @@ function AutoGit(){
         
         DisplayBanner "ADD MODIFICATION" $BBlue
         git add .
-        addResult=$?
+        addResult=$?        
         
-        echo
         ResultTest $addResult "Modification added correctly." "Nothing has been changed."
         echo
 		 if [ "$addResult" != 0 ]
