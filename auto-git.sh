@@ -154,7 +154,18 @@ function DisplayBanner(){
 	fi
 }
 
-if [ "$1" != "" ] && [ "$2" != "" ]
+function ResultTest(){
+	if [ "$1" == "0" ]
+	then		
+		echo -e "${BGreen}$2${ResetColor}"
+		return 0		
+	else		
+		echo -e "${BRed}$3${ResetColor}"
+		return 1
+	fi	
+}
+
+if [ "$1" != "" ]
 then
 	DisplayBanner "STATUS" $BBlue
 	git status
@@ -165,19 +176,35 @@ then
 	git add .
 	addResult=$?
 
+	echo
+	ResultTest $addResult "Modification added correctly." "Nothing has been changed."
+	echo	
+
 	DisplayBanner "NEW STATUS" $BBlue	
 	git status
 	newStatusResult=$?
 
 	DisplayBanner "COMMIT MODIFICATION" $BBlue
-	git commit -m "$1"
-	commitResult=$?
+
+	if [ "$2" == "" ]
+	then
+		echo
+		git commit -v
+	else
+		echo
+		git commit -m "$2"
+	fi	
+	commitResult=$?	
 	echo
+	ResultTest $commitResult "Modification commited correctly." "Nothing has been changed."
+	echo	
 
 	DisplayBanner "PUSH MODIFICATION" $BBlue
-	git push -u origin "$2"
+	git push -u origin "$1"
 	pushResult=$?
 	echo
+	ResultTest $pushResult "Modification pushed correctly." "Nothing has been changed."
+	echo	
 	if [ "$statusResult" == "0" ] \
 		&& [ "$addResult" == "0" ] \
 		&& [ "$newStatusResult" == "0" ] \
@@ -193,20 +220,22 @@ else
 	echo "Illegal number of parameters:"
 	echo
 
-	if [ "$1" == "" ]
+	if [ "$2" == "" ]
 	then		
 		echo " -> Commit message is missing."
 	fi
 
 	echo
 
-	if [ "$2" == "" ]
+	if [ "$1" == "" ]
 	then
-		echo " -> Git branch to push modification in is missing."
+		echo " -> Git branch is missing."
 	fi
 
 	echo	
-	echo -e "${BYellow}Usage: auto-git <Commit message> <Branch Name>.${ResetColor}"
+	echo -e "${BYellow}Usage: auto-git <Branch Name> <Commit message>."
+	echo -e "OR":	
+	echo -e "Usage: auto-git <Branch Name>.${ResetColor}"
 fi
 
 
