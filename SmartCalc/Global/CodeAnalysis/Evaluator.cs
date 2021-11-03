@@ -1,16 +1,20 @@
 
 using System;
+using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis.Binding;
 
-namespace SmartCalc.Global.CodeAnalysis.Syntax
+namespace SmartCalc.Global.CodeAnalysis
 {
 
-    public sealed class Evaluator
+    internal sealed class Evaluator
     {
         private readonly BoundExpression _root;
-        public Evaluator(BoundExpression root)
+        private readonly Dictionary<string, object> _variables;
+
+        public Evaluator(BoundExpression root, Dictionary<string, object> variables)
         {
             _root = root;
+            _variables = variables;
         }
         public object Evaluate()
         {
@@ -20,6 +24,14 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             if (node is BoundLiteralExpression n)
                 return n.Value;
+            if (node is BoundVariableExpression v)
+                return _variables[v.Name];
+            if (node is BoundAssignmentExpression a)
+            {
+                var value = EvaluateExpression(a.Expression);
+                _variables[a.Name] = value;
+                return value;
+            }
             if (node is BoundUnaryExpression u)
             {
                 var operand = EvaluateExpression(u.Operand);
@@ -56,10 +68,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                         return (bool)left && (bool)right;
                     case BoundBinaryOperatorKind.LogicalOr:
                         return (bool)left || (bool)right;
-                        case BoundBinaryOperatorKind.Equals:
-                        return Equals(left,right);
-                        case BoundBinaryOperatorKind.NotEquals:
-                        return !Equals(left,right);
+                    case BoundBinaryOperatorKind.Equals:
+                        return Equals(left, right);
+                    case BoundBinaryOperatorKind.NotEquals:
+                        return !Equals(left, right);
                     default:
                         throw new Exception($"Unexpected binary operator '{b.Op}'.");
                 }

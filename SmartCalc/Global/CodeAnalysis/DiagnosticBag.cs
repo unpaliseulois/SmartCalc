@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SmartCalc.Global.CodeAnalysis.Syntax;
 
-namespace SmartCalc.Global.CodeAnalysis.Syntax
+namespace SmartCalc.Global.CodeAnalysis
 {
     internal sealed class DiagnosticBag : IEnumerable<Diagnostic>
     {
@@ -14,7 +15,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             _diagnostics.AddRange(diagnostics._diagnostics);
 
-        }        
+        }
         public void Report(TextSpan span, string message)
         {
             var diagnostic = new Diagnostic(span, message);
@@ -46,7 +47,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             Report(span, message);
         }
 
-        internal void RepoetUndifinedBinaryOperator(TextSpan span, string operatorText, Type leftType, Type rightType)
+        public void RepoetUndifinedBinaryOperator(TextSpan span, string operatorText, Type leftType, Type rightType)
         {
             var _leftType = leftType.ToString().Split('.')[1];
             var _rightType = rightType.ToString().Split('.')[1];
@@ -54,6 +55,12 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             var message = $"Binary operator '{operatorText}' is not defined for types '{_leftType}' and '{_rightType}'.";
             Report(span, message);
 
+        }
+
+        public void ReportUndefinedName(TextSpan span, string name)
+        {
+            var message = $"Variable '{name}' doesn't exist.";
+            Report(span, message);
         }
     }
 }

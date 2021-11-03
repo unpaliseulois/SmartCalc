@@ -1,10 +1,13 @@
 namespace SmartCalc.Global.CodeAnalysis.Binding
 {
-    public enum BoundNodeKine
-    {
-        UnaryExpression,
+    internal enum BoundNodeKine
+    {        
         LiteralExpression,
+        VariableExpression,
+        AssignmentExpression,
+        UnaryExpression,
         BinaryExpression
+        
     }
 
 }

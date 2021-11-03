@@ -1,4 +1,4 @@
-namespace SmartCalc.Global.CodeAnalysis.Syntax
+namespace SmartCalc.Global.CodeAnalysis
 {
     public struct TextSpan
     {
@@ -11,6 +11,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         public int Length { get; }
 
         public int End => Start + Length;
+    }
+
+    public sealed class VariableSymbol{
+        
     }
 }
 

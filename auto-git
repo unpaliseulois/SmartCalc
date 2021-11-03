@@ -179,7 +179,7 @@ function AutoGit(){
         git add .
         addResult=$?        
         
-        ResultTest $addResult "Modification added correctly." "Nothing has been changed."
+        ResultTest $addResult "Modifications added correctly." "Nothing has been changed."
         echo
 		 if [ "$addResult" != 0 ]
         then
@@ -203,7 +203,7 @@ function AutoGit(){
         fi
         commitResult=$?
         echo
-        ResultTest $commitResult "Modification commited correctly." "Nothing has been changed."
+        ResultTest $commitResult "Modifications commited correctly." "Nothing has been changed."
         echo        
         if [ "$commitResult" != 0 ]
         then
@@ -213,7 +213,7 @@ function AutoGit(){
         git push -u origin "$1"
         pushResult=$?
         echo
-        ResultTest $pushResult "Modification pushed correctly." "Nothing has been changed."
+        ResultTest $pushResult "Modifications pushed correctly." "Nothing has been changed."
         echo
 		if [ "$pushResult" != 0 ]
         then

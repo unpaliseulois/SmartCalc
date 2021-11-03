@@ -6,6 +6,7 @@ using static System.Environment;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 using SmartCalc.Global.CodeAnalysis.Binding;
 using System.Collections.Generic;
+using SmartCalc.Global.CodeAnalysis;
 
 namespace SmartCalc.Main
 {
@@ -14,6 +15,7 @@ namespace SmartCalc.Main
         private static void Main()
         {
             var displayTree = false;
+            var variables = new Dictionary<string, object>();
 
             while (true)
             {
@@ -82,7 +84,7 @@ namespace SmartCalc.Main
 
                 var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
-                var result = compilation.Evaluate();
+                var result = compilation.Evaluate(variables);
 
                 var diagnostics = result.Diagnostics;
 
