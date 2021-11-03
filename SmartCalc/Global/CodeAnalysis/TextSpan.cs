@@ -12,10 +12,6 @@ namespace SmartCalc.Global.CodeAnalysis
 
         public int End => Start + Length;
     }
-
-    public sealed class VariableSymbol{
-        
-    }
 }
 
 

@@ -15,7 +15,7 @@ namespace SmartCalc.Main
         private static void Main()
         {
             var displayTree = false;
-            var variables = new Dictionary<string, object>();
+            var variables = new Dictionary<VariableSymbol, object>();
 
             while (true)
             {
