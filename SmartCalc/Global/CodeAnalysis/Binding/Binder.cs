@@ -13,25 +13,39 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         {
             switch (syntax.Kind)
             {
+                case SyntaxKind.ParenthesizedExpression:
+                    return BindParenthesizedExpression(((ParenthesizedExpressionSyntax)syntax));
                 case SyntaxKind.LiteralExpression:
                     return BindLitaralExpression((LiteralExpressionSyntax)syntax);
+                case SyntaxKind.NameExpression:
+                    return BindNameExpression((NameExpressionSyntax)syntax);
+                case SyntaxKind.AssignmentExpression:
+                    return BindAssignmentExpression((AssignmentExpressionSyntax)syntax);
                 case SyntaxKind.UnaryExpression:
                     return BindUnaryExpression((UnaryExpressionSyntax)syntax);
                 case SyntaxKind.BinaryExpression:
                     return BindBinaryExpression((BinaryExpressionSyntax)syntax);
-                case SyntaxKind.ParenthesizedExpression:
-                    return BindExpression(((ParenthesizedExpressionSyntax)syntax).Expression);
                 default:
                     throw new Exception($"Unexpected syntax '{syntax.Kind}'.");
             }
+        }       
+        private BoundExpression BindParenthesizedExpression(ParenthesizedExpressionSyntax syntax)
+        {
+            return BindExpression(syntax.Expression);
         }
-
         private BoundExpression BindLitaralExpression(LiteralExpressionSyntax syntax)
         {
             var value = syntax.Value ?? 0;
             return new BoundLiteralExpression(value);
         }
-
+        private BoundExpression BindNameExpression(NameExpressionSyntax syntax)
+        {
+            
+        }
+        private BoundExpression BindAssignmentExpression(AssignmentExpressionSyntax syntax)
+        {
+            
+        }
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
             var boundOperand = BindExpression(syntax.Operand);
@@ -39,7 +53,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
 
             if (boundOperator == null)
             {
-                _diagnostics.RepoetUndifinedUnaryOperator(syntax.OperatorToken.Span,syntax.OperatorToken.Text,boundOperand.Type);
+                _diagnostics.RepoetUndifinedUnaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundOperand.Type);
                 return boundOperand;
             }
 
@@ -50,7 +64,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         {
             var boundLeft = BindExpression(syntax.Left);
             var boundRight = BindExpression(syntax.Right);
-            var boundOperator =BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
+            var boundOperator = BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
 
             if (boundOperator == null)
             {
@@ -59,6 +73,6 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             }
 
             return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
-        }               
+        }
     }
 }

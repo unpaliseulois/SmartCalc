@@ -31,6 +31,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
 
         // Expressions
         LiteralExpression,
+        NameExpression,
+        AssignmentExpression,
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression        
