@@ -4,9 +4,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
     {
         // Tokens
         BadToken,
-        EndOfFileToken,
-        NumberToken,
+        EndOfFileToken,        
         WhiteSpaceToken,
+        NumberToken,
         HatToken,
         StarStarToken,
         StarToken,
