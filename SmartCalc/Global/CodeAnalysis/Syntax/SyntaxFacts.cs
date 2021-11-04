@@ -2,7 +2,7 @@ using System;
 
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
-    internal static class SyntaxFacts
+    public static class SyntaxFacts
     {
         public static int GetUnaryOperatorPrecedence(this SyntaxKind kind)
         {
@@ -52,6 +52,51 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 default:
                     return SyntaxKind.IdentifierToken;
             }
+        }
+        public static string GetText(SyntaxKind kind)
+        {
+            switch (kind)
+            {
+                case SyntaxKind.HatToken:
+                    return "^";
+                case SyntaxKind.StarStarToken:
+                    return "**";
+                case SyntaxKind.StarToken:
+                    return "*";
+                case SyntaxKind.SlashToken:
+                    return "/";
+                case SyntaxKind.PlusToken:
+                    return "+";
+                case SyntaxKind.MinusToken:
+                    return "-";
+                case SyntaxKind.BangToken:
+                    return "!";
+                case SyntaxKind.AmpersandAmpersandToken:
+                    return "&&";
+                case SyntaxKind.PipePipeToken:
+                    return "||";
+                case SyntaxKind.PipeToken:
+                    return "|";
+                case SyntaxKind.AmpersandToken:
+                    return "&";
+                case SyntaxKind.EqualsEqualsToken:
+                    return "==";
+                case SyntaxKind.EqualsToken:
+                    return "=";
+                case SyntaxKind.BangEqualsToken:
+                    return "!=";
+                case SyntaxKind.OpenParenthsisToken:
+                    return "(";
+                case SyntaxKind.CloseParenthsisToken:
+                    return ")";
+                case SyntaxKind.FalseKeyword:
+                    return "false";
+                case SyntaxKind.TrueKeyword:
+                    return "true";
+                default:
+                    return null;
+            }
+
         }
     }
 }
