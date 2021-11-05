@@ -33,8 +33,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 case SyntaxKind.EqualsEqualsToken:
                 case SyntaxKind.BangEqualsToken:
                     return 3;
+                case SyntaxKind.AmpersandToken:
                 case SyntaxKind.AmpersandAmpersandToken:
                     return 2;
+                case SyntaxKind.PipeToken:
                 case SyntaxKind.PipePipeToken:
                     return 1;
                 default:

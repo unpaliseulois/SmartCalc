@@ -21,7 +21,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             switch (syntax.Kind)
             {
                 case SyntaxKind.ParenthesizedExpression:
-                    return BindParenthesizedExpression(((ParenthesizedExpressionSyntax)syntax));
+                    return BindParenthesizedExpression((ParenthesizedExpressionSyntax)syntax);
                 case SyntaxKind.LiteralExpression:
                     return BindLitaralExpression((LiteralExpressionSyntax)syntax);
                 case SyntaxKind.NameExpression:
