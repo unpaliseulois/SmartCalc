@@ -53,6 +53,12 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
                 BoundBinaryOperatorKind.NotEquals,typeof(int),typeof(bool)),
 
             // Bool Operation
+            new BoundBinaryOperator(SyntaxKind.AmpersandToken,
+                BoundBinaryOperatorKind.LogicalAnd,typeof(bool)),
+
+            new BoundBinaryOperator(SyntaxKind.PipeToken,
+                BoundBinaryOperatorKind.LogicalOr,typeof(bool)),
+
             new BoundBinaryOperator(SyntaxKind.AmpersandAmpersandToken,
                 BoundBinaryOperatorKind.LogicalAnd,typeof(bool)),
 

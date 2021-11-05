@@ -36,7 +36,21 @@ namespace SmartCalc.Tests.CodeAnalysis
         [InlineData("false != false", false)]
         [InlineData("true != false", true)]
 
-        [InlineData("(a=10) * a", 100)]        
+        [InlineData("false & false", false)]
+        [InlineData("true & true", true)]
+        [InlineData("true & false", false)]
+
+        [InlineData("true && false", false)]        
+        [InlineData("true && true", true)]
+
+        [InlineData("false | false", false)]
+        [InlineData("false | true", true)]
+
+        [InlineData("true || false", true)]        
+        [InlineData("false || false", false)]
+
+        [InlineData("(a=10) * a", 100)]
+                
         public void SyntaxFact_GetText_RoundTrips(string text, object expectedResult)
         {
             var syntaxTree = SyntaxTree.Parse(text);
