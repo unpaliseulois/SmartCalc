@@ -1,0 +1,6 @@
+#!/bin/sh
+alias dir='ls'
+alias lsa='ls -a'
+alias cls='clear'
+alias c='code'
+chmod -x $0
