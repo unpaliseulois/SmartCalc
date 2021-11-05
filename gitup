@@ -165,9 +165,6 @@ function ResultTest(){
     fi
 }
 function AutoGit(){
-    
-    
-    
     if [ "$1" != "" ]
     then
         DisplayBanner "STATUS" $BBlue
@@ -177,15 +174,15 @@ function AutoGit(){
         
         DisplayBanner "ADD MODIFICATION" $BBlue
         git add .
-        addResult=$?        
+        addResult=$?
         
         ResultTest $addResult "Modifications added correctly." "Nothing has been changed."
         echo
-		 if [ "$addResult" != 0 ]
+        if [ "$addResult" != 0 ]
         then
             return 1
-        fi  
-		###
+        fi
+        ###
         
         DisplayBanner "NEW STATUS" $BBlue
         git status
@@ -204,30 +201,32 @@ function AutoGit(){
         commitResult=$?
         echo
         ResultTest $commitResult "Modifications commited correctly." "Nothing has been changed."
-        echo        
+        echo
         if [ "$commitResult" != 0 ]
         then
             return 1
-        fi        
+        fi
         DisplayBanner "PUSH MODIFICATION" $BBlue
         git push -u origin "$1"
         pushResult=$?
         echo
         ResultTest $pushResult "Modifications pushed correctly." "Nothing has been changed."
         echo
-		if [ "$pushResult" != 0 ]
+        if [ "$pushResult" != 0 ]
         then
             return 1
         fi
         if [ "$statusResult" == "0" ] \
-        && [ "$addResult" == "0" ] \
-        && [ "$newStatusResult" == "0" ] \
-        && [ "$commitResult" == "0" ] \
-        && [ "$pushResult" == "0" ]
+            && [ "$addResult" == "0" ] \
+            && [ "$newStatusResult" == "0" ] \
+            && [ "$commitResult" == "0" ] \
+            && [ "$pushResult" == "0" ]
         then
             echo -e "${BGreen}The git process has completed successfully.${ResetColor}"
+            echo
         else
             echo -e "${BRed}The git process has terminated improperly.${ResetColor}"
+            echo
         fi
     else
         echo -e "${BRed}"
@@ -237,15 +236,12 @@ function AutoGit(){
         if [ "$2" == "" ]
         then
             echo " -> Commit message is missing."
-        fi
-        
-        echo
+        fi        
         
         if [ "$1" == "" ]
         then
             echo " -> Git branch is missing."
-        fi
-        
+        fi        
         echo
         echo -e "${BYellow}Usage: auto-git <Branch Name> <Commit message>."
         echo -e "OR":
