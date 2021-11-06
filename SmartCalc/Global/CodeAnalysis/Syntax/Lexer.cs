@@ -153,6 +153,15 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                         ReadNumberToken();
                     }
                     break;
+                case ' ':
+                case '\t':
+                case '\n':
+                case '\r':
+
+                    {
+                        ReadWhiteSpaceToken();
+                    }
+                    break;
                 default:
                     {
                         if (char.IsWhiteSpace(Current))
