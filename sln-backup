@@ -5,7 +5,7 @@ function SlnBackup()
 	echo
 	if [ "$1" != "" ]
 	then
-		cp -r SmartCalc/ ../$1 && echo -e "The solution backup was created successfully.\n"
+		cp -r SmartCalc/ ../SmartCalcBackup/$1 && echo -e "The solution backup was created successfully.\n"
 		return 0
 	else
 		echo -e "No solution backup was created.\n"

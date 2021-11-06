@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SmartCalc.Global.CodeAnalysis;
 using SmartCalc.Global.CodeAnalysis.Binding;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 

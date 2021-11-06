@@ -23,7 +23,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         BangEqualsToken   ,     
         OpenParenthsisToken,
         CloseParenthsisToken,
-        IdentifierToken,        
+        IdentifierToken,
+        //ComaToken,        
 
         // Keywords
         FalseKeyword,

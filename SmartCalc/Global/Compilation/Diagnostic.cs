@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace SmartCalc.Global.Compilation
 {
     public sealed class Diagnostic{
