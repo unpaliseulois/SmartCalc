@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis;
 using SmartCalc.Global.CodeAnalysis.Syntax;
+using SmartCalc.Global.Compilation;
 using Xunit;
 
 namespace SmartCalc.Tests.CodeAnalysis

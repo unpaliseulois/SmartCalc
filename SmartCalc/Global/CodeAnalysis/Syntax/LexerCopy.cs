@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using SmartCalc.Global.Compilation;
 
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {

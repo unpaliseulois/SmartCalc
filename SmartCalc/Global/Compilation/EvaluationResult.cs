@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.Compilation
 {
     public sealed class EvaluationResult{
         public EvaluationResult(IEnumerable<Diagnostic> diagnostics, object value)

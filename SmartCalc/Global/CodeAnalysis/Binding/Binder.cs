@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 using System.Linq;
+using SmartCalc.Global.Compilation;
 
 namespace SmartCalc.Global.CodeAnalysis.Binding
 {
@@ -93,6 +94,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         {
             var boundLeft = BindExpression(syntax.Left);
             var boundRight = BindExpression(syntax.Right);
+
             var boundOperator = BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
 
             if (boundOperator == null)
@@ -100,8 +102,19 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
                 _diagnostics.RepoetUndifinedBinaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundLeft.Type, boundRight.Type);
                 return boundLeft;
             }
+            else
+            {   /*
+                if (boundOperator.Kind == BoundBinaryOperatorKind.Division && boundRight.Kind == 0)
+                {
+                    var message = "Illegal division by zero.";
+                    var span = new TextSpan(syntax.OperatorToken.Span.End, 1);
 
-            return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
+                    _diagnostics.ReportDivisionByZero(span, message);
+                    return null;
+                }
+                //*/
+                return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
+            }
         }
     }
 }

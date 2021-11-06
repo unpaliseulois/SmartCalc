@@ -1,4 +1,4 @@
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.Compilation
 {
     public struct TextSpan
     {

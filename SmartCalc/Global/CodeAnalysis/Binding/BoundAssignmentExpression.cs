@@ -1,5 +1,6 @@
 
 using System;
+using SmartCalc.Global.Compilation;
 
 namespace SmartCalc.Global.CodeAnalysis.Binding
 {

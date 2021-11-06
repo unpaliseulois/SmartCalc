@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.Compilation
 {
     public sealed class Diagnostic{
         public Diagnostic(TextSpan span, string message)

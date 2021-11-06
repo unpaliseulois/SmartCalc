@@ -76,33 +76,18 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
         }
         private static IEnumerable<(SyntaxKind kind, string text)> GetTokens()
         {
-            return new[]
+            var fixedTokens = Enum.GetValues(typeof(SyntaxKind))
+                                  .Cast<SyntaxKind>()
+                                  .Select(k => (kind: k, text:SyntaxFacts.GetText(k)))
+                                  .Where(t => t.text != null);
+            var dynamicTokens = new[]
             {
-                (SyntaxKind.HatToken, "^"),
-                (SyntaxKind.StarStarToken, "**"),
-                (SyntaxKind.StarToken, "*"),
-                (SyntaxKind.SlashToken, "/"),
-                (SyntaxKind.PlusToken, "+"),
-                (SyntaxKind.MinusToken, "-"),
-                (SyntaxKind.BangToken, "!"),
-                (SyntaxKind.AmpersandAmpersandToken, "&&"),
-                (SyntaxKind.PipePipeToken, "||"),
-                (SyntaxKind.PipeToken, "|"),
-                (SyntaxKind.AmpersandToken, "&"),
-                (SyntaxKind.EqualsEqualsToken, "=="),
-                (SyntaxKind.EqualsToken, "="),
-                (SyntaxKind.BangEqualsToken   , "!="),
-                (SyntaxKind.OpenParenthsisToken, "("),
-                (SyntaxKind.CloseParenthsisToken, ")"),
-
-                (SyntaxKind.FalseKeyword, "false"),
-                (SyntaxKind.TrueKeyword, "true"),
-
                 (SyntaxKind.NumberToken, "1"),
                 (SyntaxKind.NumberToken, "123"),
                 (SyntaxKind.IdentifierToken, "a"),
                 (SyntaxKind.IdentifierToken,"abc")
             };
+            return fixedTokens.Concat(dynamicTokens);
         }
         private static IEnumerable<(SyntaxKind kind, string text)> GetSeparators()
         {

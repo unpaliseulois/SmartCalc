@@ -4,9 +4,10 @@ using static System.Console;
 using static System.ConsoleColor;
 using static System.Environment;
 using SmartCalc.Global.CodeAnalysis.Syntax;
-using SmartCalc.Global.CodeAnalysis.Binding;
 using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis;
+using SmartCalc.Global.Compilation;
+
 
 namespace SmartCalc.Main
 {

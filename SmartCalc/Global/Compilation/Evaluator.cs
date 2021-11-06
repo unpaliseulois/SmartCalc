@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis.Binding;
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.Compilation
 {
 
     internal sealed class Evaluator
     {
         private readonly BoundExpression _root;
         private readonly Dictionary<VariableSymbol, object> _variables;
+        private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+        public DiagnosticBag Diagnostics => _diagnostics;
 
         public Evaluator(BoundExpression root, Dictionary<VariableSymbol, object> variables)
         {

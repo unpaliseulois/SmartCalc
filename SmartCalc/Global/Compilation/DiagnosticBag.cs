@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.Compilation
 {
     internal sealed class DiagnosticBag : IEnumerable<Diagnostic>
     {
@@ -61,6 +61,11 @@ namespace SmartCalc.Global.CodeAnalysis
         {
             var message = $"Variable '{name}' doesn't exist.";
             Report(span, message);
+        }
+
+        internal void ReportDivisionByZero(TextSpan span, string message)
+        {            
+            Report(span,message);
         }
     }
 }

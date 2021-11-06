@@ -1,6 +1,6 @@
 using System;
 
-namespace SmartCalc.Global.CodeAnalysis
+namespace SmartCalc.Global.Compilation
 {
     public sealed class  VariableSymbol
     {
