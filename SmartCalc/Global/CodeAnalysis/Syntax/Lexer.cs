@@ -53,94 +53,107 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 {
                     case '\0':
                         {
-                            return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
+                            _kind = SyntaxKind.EndOfFileToken;
                         }
+                        break;
                     case '+':
                         {
+                            
+                            _kind=SyntaxKind.PlusToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.PlusToken, _start, "+", null);
                         }
+                        break;
                     case '-':
                         {
+                            _kind=SyntaxKind.MinusToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.MinusToken, _start, "-", null);
                         }
+                        break;
                     case '^':
                         {
+                            _kind=SyntaxKind.HatToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.HatToken, _start, "^", null);
                         }
+                        break;
                     case '*':
                         _position++;
                         if (Current == '*')
                         {
+                            _kind=SyntaxKind.StarStarToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.StarStarToken, _start, "**", null);
                         }
                         else
                         {
-                            return new SyntaxToken(SyntaxKind.StarToken, _start, "*", null);
+                            _kind=SyntaxKind.StarToken;
                         }
+                        break;
                     case '/':
                         {
+                            _kind=SyntaxKind.SlashToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.SlashToken, _start, "/", null);
                         }
+                        break;
                     case '(':
                         {
+                            _kind=SyntaxKind.OpenParenthsisToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.OpenParenthsisToken, _start, "(", null);
                         }
+                        break;
                     case ')':
                         {
+                            _kind=SyntaxKind.CloseParenthsisToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.CloseParenthsisToken, _start, ")", null);
                         }
+                        break;
                     case '!':
                         _position++;
                         if (Current == '=')
                         {
+                            _kind=SyntaxKind.BangEqualsToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.BangEqualsToken, _start, "!=", null);
                         }
                         else
                         {
-                            return new SyntaxToken(SyntaxKind.BangToken, _start, "!", null);
+                            _kind=SyntaxKind.BangToken;
                         }
+                        break;
                     case '&':
                         _position++;
                         if (Current == '&')
                         {
+                            _kind=SyntaxKind.AmpersandAmpersandToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _start, "&&", null);
                         }
                         else
                         {
-                            return new SyntaxToken(SyntaxKind.AmpersandToken, _start, "&", null);
+                            _kind=SyntaxKind.AmpersandToken;
                         }
+                        break;
 
                     case '|':
                         _position++;
                         if (Current == '|')
                         {
+                            _kind=SyntaxKind.PipePipeToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.PipePipeToken, _start, "||", null);
                         }
                         else
                         {
-                            return new SyntaxToken(SyntaxKind.PipeToken, _start, "|", null);
+                            _kind=SyntaxKind.PipeToken;
                         }
+                        break;
                     case '=':
                         _position++;
                         if (Current == '=')
                         {
+                            _kind=SyntaxKind.EqualsEqualsToken;
                             _position++;
-                            return new SyntaxToken(SyntaxKind.EqualsEqualsToken, _start, "==", null);
                         }
                         else
                         {
-                            return new SyntaxToken(SyntaxKind.EqualsToken, _start, "=", null);
-                        }                        
+                            _kind=SyntaxKind.EqualsToken;
+                        } 
+                        break;                       
                     default:
                         {
                             _diagnostics.ReportBadCharacter(_position, Current);
