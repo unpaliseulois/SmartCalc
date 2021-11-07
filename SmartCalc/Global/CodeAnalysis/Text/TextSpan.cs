@@ -1,6 +1,6 @@
 using System;
 
-namespace SmartCalc.Global.Compilation
+namespace SmartCalc.Global.CodeAnalysis.Text
 {
     public struct TextSpan
     {

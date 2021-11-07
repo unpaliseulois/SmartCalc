@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis.Syntax;
+using SmartCalc.Global.CodeAnalysis.Text;
 
 namespace SmartCalc.Global.Compilation
 {

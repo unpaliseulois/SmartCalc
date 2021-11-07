@@ -1,3 +1,5 @@
+using SmartCalc.Global.CodeAnalysis.Text;
+
 namespace SmartCalc.Global.Compilation
 {
     public sealed class Diagnostic{
