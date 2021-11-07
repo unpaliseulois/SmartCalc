@@ -109,7 +109,7 @@ namespace SmartCalc.Main
 
                         var character = diagnostic.Span.Start - text.Lines[lineIndex].Start + 1;
                         ForegroundColor = DarkRed;
-                        Write($"\n    [Line:{lineNumber} - Character:{character}] :: ");
+                        Write($"\n    [Row:{lineNumber} - Column:{character}] :: ");
                         WriteLine($"{diagnostic}\n");
                         ResetColor();
 
