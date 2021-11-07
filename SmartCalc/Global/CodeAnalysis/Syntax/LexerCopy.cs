@@ -115,12 +115,12 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 case '(':
                     {
                         _position++;
-                        return new SyntaxToken(SyntaxKind.OpenParenthsisToken, start, "(", null);
+                        return new SyntaxToken(SyntaxKind.OpenParenthesisToken, start, "(", null);
                     }
                 case ')':
                     {
                         _position++;
-                        return new SyntaxToken(SyntaxKind.CloseParenthsisToken, start, ")", null);
+                        return new SyntaxToken(SyntaxKind.CloseParenthesisToken, start, ")", null);
                     }
                 case '!':
                     if (Lookahead == '=')

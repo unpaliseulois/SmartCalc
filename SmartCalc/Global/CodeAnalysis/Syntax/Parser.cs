@@ -5,10 +5,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     internal sealed class Parser
     {
+        private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
         private readonly SyntaxToken[] _tokens;
         private int _position;
-        private DiagnosticBag _diagnostics = new DiagnosticBag();
-        public DiagnosticBag Diagnostics => _diagnostics;
+        //public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(string text)
         {
             var tokens = new List<SyntaxToken>();
@@ -32,13 +32,11 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             return _tokens[index];
         }
         private SyntaxToken Current => Peek(0);
-
         private SyntaxToken NextToken()
         {
             var current = Current;
             _position++;
             return current;
-
         }
         private SyntaxToken MatchToken(SyntaxKind kind)
         {
@@ -53,7 +51,6 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
             return new SyntaxTree(_diagnostics, expression, endOfFileToken);
         }
-
         private ExpressionSyntax ParseExpression()
         {
             return ParseAssignmentExpression();
@@ -69,9 +66,6 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 return new AssignmentExpressionSyntax(identifiertoken, operatorToken, right);
             }
             return ParseBinaryExpression();
-
-
-
         }
         private ExpressionSyntax ParseBinaryExpression(int parentPrecedence = 0)
         {
@@ -87,14 +81,11 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             {
                 left = ParsePrimaryExpression();
             }
-
             while (true)
             {
                 var precedence = Current.Kind.GetBinaryOperatorPrecedence();
-
                 if (precedence == 0 || precedence <= parentPrecedence)
                     break;
-
                 var operatorToken = NextToken();
                 var right = ParseBinaryExpression(precedence);
                 left = new BinaryExpressionSyntax(left, operatorToken, right);
@@ -105,33 +96,40 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             switch (Current.Kind)
             {
-                case SyntaxKind.OpenParenthsisToken:
-                    {
-                        var left = NextToken();
-                        var expression = ParseExpression();
-                        var right = MatchToken(SyntaxKind.CloseParenthsisToken);
-                        return new ParenthesizedExpressionSyntax(left, expression, right);
-                    }
-
+                case SyntaxKind.OpenParenthesisToken:
+                    return ParseParenthesizedExpression();
                 case SyntaxKind.FalseKeyword:
                 case SyntaxKind.TrueKeyword:
-                    {
-                        var keywordToken = NextToken();
-                        var value = keywordToken.Kind == SyntaxKind.TrueKeyword;
-                        return new LiteralExpressionSyntax(keywordToken, value);
-                    }
+                    return ParseBooleanLiteral();
+                case SyntaxKind.NumberToken:
+                    return ParseNumberLiteral();
                 case SyntaxKind.IdentifierToken:
-                    {
-                        var identifierToken = NextToken();
-                        return new NameExpressionSyntax(identifierToken);
-                    }
                 default:
-                    {
-                        var numberToken = MatchToken(SyntaxKind.NumberToken);
-                        return new LiteralExpressionSyntax(numberToken);
-                    }
+                    return ParseNameExpression();
             }
-
+        }
+        private ExpressionSyntax ParseNumberLiteral()
+        {
+            var numberToken = MatchToken(SyntaxKind.NumberToken);
+            return new LiteralExpressionSyntax(numberToken);
+        }
+        private ExpressionSyntax ParseParenthesizedExpression()
+        {
+            var left = MatchToken(SyntaxKind.OpenParenthesisToken);
+            var expression = ParseExpression();
+            var right = MatchToken(SyntaxKind.CloseParenthesisToken);
+            return new ParenthesizedExpressionSyntax(left, expression, right);
+        }
+        private ExpressionSyntax ParseBooleanLiteral()
+        {
+            var isTrue = Current.Kind == SyntaxKind.TrueKeyword;
+            var keywordToken = isTrue ? MatchToken(SyntaxKind.TrueKeyword) :MatchToken(SyntaxKind.FalseKeyword);
+            return new LiteralExpressionSyntax(keywordToken, isTrue);
+        }
+        private ExpressionSyntax ParseNameExpression()
+        {
+            var identifierToken = MatchToken(SyntaxKind.IdentifierToken);
+            return new NameExpressionSyntax(identifierToken);
         }
     }
 }

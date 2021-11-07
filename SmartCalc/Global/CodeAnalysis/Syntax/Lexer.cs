@@ -80,13 +80,13 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     break;
                 case '(':
                     {
-                        _kind = SyntaxKind.OpenParenthsisToken;
+                        _kind = SyntaxKind.OpenParenthesisToken;
                         _position++;
                     }
                     break;
                 case ')':
                     {
-                        _kind = SyntaxKind.CloseParenthsisToken;
+                        _kind = SyntaxKind.CloseParenthesisToken;
                         _position++;
                     }
                     break;
