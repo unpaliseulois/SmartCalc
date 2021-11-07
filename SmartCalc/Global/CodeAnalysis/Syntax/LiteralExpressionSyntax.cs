@@ -16,12 +16,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         }
         public override SyntaxKind Kind => SyntaxKind.LiteralExpression;
         public SyntaxToken LiteralToken { get; }
-        public object Value { get; }
-
-        public override IEnumerable<SyntaxNode> GetChildren()
-        {
-            yield return LiteralToken;
-        }
+        public object Value { get; }        
     }
 }
 

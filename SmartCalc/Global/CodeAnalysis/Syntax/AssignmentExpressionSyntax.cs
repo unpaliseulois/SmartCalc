@@ -14,13 +14,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         public override SyntaxKind Kind => SyntaxKind.AssignmentExpression;
         public SyntaxToken IdentifierToken { get; }
         public SyntaxToken EqaulsToken { get; }
-        public ExpressionSyntax Expression { get; }
-        public override IEnumerable<SyntaxNode> GetChildren()
-        {
-            yield return IdentifierToken;
-            yield return EqaulsToken;
-            yield return Expression;
-        }
+        public ExpressionSyntax Expression { get; }        
     }
 }
 

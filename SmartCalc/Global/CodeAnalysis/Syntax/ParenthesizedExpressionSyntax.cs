@@ -16,14 +16,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         public ExpressionSyntax Expression { get; }
         public SyntaxToken CloseParenthesisToken { get; }
 
-        public override SyntaxKind Kind => SyntaxKind.ParenthesizedExpression;
-
-        public override IEnumerable<SyntaxNode> GetChildren()
-        {
-            yield return OpenParenthesisToken;
-            yield return Expression;
-            yield return CloseParenthesisToken;
-        }
+        public override SyntaxKind Kind => SyntaxKind.ParenthesizedExpression;        
     }
 }
 
