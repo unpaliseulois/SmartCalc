@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using SmartCalc.Global.Compilation;
 using System.Collections.Immutable;
-
+using SmartCalc.Global.CodeAnalysis.Text;
 
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
@@ -9,10 +9,11 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
         private readonly ImmutableArray<SyntaxToken> _tokens;
+        private readonly SourceText _text;
         private int _position;
         //public DiagnosticBag Diagnostics => _diagnostics;
-        public Parser(string text)
-        {
+        public Parser(SourceText text)
+        {            
             var tokens = new List<SyntaxToken>();
             var lexer = new Lexer(text);
             SyntaxToken token;
@@ -23,8 +24,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     && token.Kind != SyntaxKind.BadToken)
                     tokens.Add(token);
             } while (token.Kind != SyntaxKind.EndOfFileToken);
+            
+            _text = text;
             _tokens = tokens.ToImmutableArray();
-            _diagnostics.AddRange(lexer.Diagnostics);
+            _diagnostics.AddRange(lexer.Diagnostics);            
         }
         private SyntaxToken Peek(int offset)
         {
@@ -51,7 +54,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             var expression = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new SyntaxTree(_diagnostics.ToImmutableArray(), expression, endOfFileToken);
+            return new SyntaxTree(_text, _diagnostics.ToImmutableArray(), expression, endOfFileToken);
         }
         private ExpressionSyntax ParseExpression()
         {

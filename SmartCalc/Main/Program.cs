@@ -5,11 +5,7 @@ using static System.ConsoleColor;
 using static System.Environment;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 using System.Collections.Generic;
-using SmartCalc.Global.CodeAnalysis;
 using SmartCalc.Global.Compilation;
-using System.IO;
-using System.Text;
-
 namespace SmartCalc.Main
 {
     internal static class Program
@@ -93,31 +89,36 @@ namespace SmartCalc.Main
                 if (displayTree)
                 {
                     ForegroundColor = DarkCyan;
-                    syntaxTree.Root.WriteTo(Console.Out);                  
+                    syntaxTree.Root.WriteTo(Console.Out);
                     ResetColor();
                 }
 
                 if (!diagnostics.Any())
                 {
-
                     ForegroundColor = Gray;
                     WriteLine(result.Value);
                     ResetColor();
                 }
                 else
                 {
+                    var text = syntaxTree.Text;
                     foreach (var diagnostic in diagnostics)
                     {
+                        var lineIndex = text.GetLineIndex(diagnostic.Span.Start);
+                        var lineNumber = lineIndex + 1;
+
+                        var character = diagnostic.Span.Start - text.Lines[lineIndex].Start + 1;
                         ForegroundColor = DarkRed;
-                        WriteLine($"\n{diagnostic}\n");
+                        Write($"\n    [Line:{lineNumber} - Character:{character}] :: ");
+                        WriteLine($"{diagnostic}\n");
                         ResetColor();
 
                         var prefix = line.Substring(0, diagnostic.Span.Start);
                         var error = line.Substring(diagnostic.Span.Start, diagnostic.Span.Length);
                         var sufix = line.Substring(diagnostic.Span.End);
-
                         Write($"    {prefix}");
                         ForegroundColor = DarkRed;
+
                         Write(error);
                         ResetColor();
                         WriteLine($"{sufix}\n");
