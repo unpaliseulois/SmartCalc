@@ -65,6 +65,7 @@ namespace SmartCalc.Main
                     ResetColor();
                     continue;
                 }
+                
                 // Clear
                 string[] clearCmmands = { "cc", "cls", "clear", "wipe", "wc", "clean", "cs" };
                 if (clearCmmands.Contains(line.ToLower()))
@@ -74,8 +75,8 @@ namespace SmartCalc.Main
                     continue;
                 }
                 // Exit
-                string[] clearCommands = { "e", "exit", "terminate", "close", "bye" };
-                if (clearCommands.Contains(line.ToLower()))
+                string[] exitCommands = { "e", "exit", "terminate", "close", "bye" };
+                if (exitCommands.Contains(line.ToLower()))
                 {
                     Environment.Exit(0);
                 }
