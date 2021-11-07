@@ -16,4 +16,3 @@ D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Main\obj\Debug\net5.0\Main.dll
 D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Main\obj\Debug\net5.0\ref\Main.dll
 D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Main\obj\Debug\net5.0\Main.pdb
 D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Main\obj\Debug\net5.0\Main.genruntimeconfig.cache
-D:\bin\OneDrive\vscode-csharp-git\SmartCalc\Main\obj\Debug\net5.0\Main.csproj.CopyComplete

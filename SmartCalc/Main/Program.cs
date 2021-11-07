@@ -7,7 +7,8 @@ using SmartCalc.Global.CodeAnalysis.Syntax;
 using System.Collections.Generic;
 using SmartCalc.Global.CodeAnalysis;
 using SmartCalc.Global.Compilation;
-
+using System.IO;
+using System.Text;
 
 namespace SmartCalc.Main
 {
@@ -92,7 +93,7 @@ namespace SmartCalc.Main
                 if (displayTree)
                 {
                     ForegroundColor = DarkCyan;
-                    PrettyPrint(syntaxTree.Root);
+                    syntaxTree.Root.WriteTo(Console.Out);                  
                     ResetColor();
                 }
 
@@ -125,6 +126,7 @@ namespace SmartCalc.Main
                 }
             }
         }
+        /*
         static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
         {
             var marker = isLast ? "└──" : "├──";
@@ -139,11 +141,10 @@ namespace SmartCalc.Main
             WriteLine();
             indent += isLast ? "   " : "│  ";
 
-
             var lastChild = node.GetChildren().LastOrDefault();
             foreach (var child in node.GetChildren())
                 PrettyPrint(child, indent, child == lastChild);
-
         }
+        //*/
     }
 }
