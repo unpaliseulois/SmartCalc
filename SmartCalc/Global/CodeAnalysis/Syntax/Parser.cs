@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using SmartCalc.Global.Compilation;
+using System.Collections.Immutable;
+
 
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     internal sealed class Parser
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
-        private readonly SyntaxToken[] _tokens;
+        private readonly ImmutableArray<SyntaxToken> _tokens;
         private int _position;
         //public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(string text)
@@ -21,7 +23,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     && token.Kind != SyntaxKind.BadToken)
                     tokens.Add(token);
             } while (token.Kind != SyntaxKind.EndOfFileToken);
-            _tokens = tokens.ToArray();
+            _tokens = tokens.ToImmutableArray();
             _diagnostics.AddRange(lexer.Diagnostics);
         }
         private SyntaxToken Peek(int offset)
@@ -49,7 +51,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             var expression = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new SyntaxTree(_diagnostics, expression, endOfFileToken);
+            return new SyntaxTree(_diagnostics.ToImmutableArray(), expression, endOfFileToken);
         }
         private ExpressionSyntax ParseExpression()
         {

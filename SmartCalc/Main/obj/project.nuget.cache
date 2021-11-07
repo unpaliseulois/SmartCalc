@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "i+ku/LgPvhFbreEDEAYQSdqKcADaFkM61BvYF5KVEQLlNvPPAvhRsNpbZFtwkga7bF9StV0w1BT/7yxTCIChvQ==",
+  "dgSpecHash": "kuUVkarmSC2oCJ8LCH/YjbE7MkwEOGIQ0TD8GX04w+HRaLiITq4TxLFSgojhQxQxmvBX3sgY01xKV9yIu2C4PA==",
   "success": true,
   "projectFilePath": "D:\\bin\\OneDrive\\vscode-csharp-git\\SmartCalc\\Main\\Main.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\spartacus\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

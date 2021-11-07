@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using SmartCalc.Global.CodeAnalysis.Binding;
 using SmartCalc.Global.CodeAnalysis.Syntax;
+using System.Collections.Immutable;
+
 
 namespace SmartCalc.Global.Compilation
 {
@@ -19,14 +21,14 @@ namespace SmartCalc.Global.Compilation
             //var evaluator = new Evaluator(boundExpression,variables);
             //evaluator.Evaluate();
 
-            var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToArray();
+            var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToImmutableArray();
             //var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).Concat(evaluator.Diagnostics).ToArray();
             if(diagnostics.Any())
-                return new EvaluationResult(diagnostics, null);
+                return new EvaluationResult(diagnostics.ToImmutableArray(), null);
 
             var evaluator = new Evaluator(boundExpression, variables);
             var value = evaluator.Evaluate();
-            return new EvaluationResult(Array.Empty<Diagnostic>(),value);
+            return new EvaluationResult(ImmutableArray<Diagnostic>.Empty,value);
         }        
     }
 }
