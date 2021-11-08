@@ -30,13 +30,17 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         FalseKeyword,
         TrueKeyword,
 
+        // Nodes
+        
+        CompilationUnit,
+
         // Expressions
         LiteralExpression,
         NameExpression,
         AssignmentExpression,
         UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression        
+        ParenthesizedExpression
     }
 }
 

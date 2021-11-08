@@ -11,7 +11,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 private readonly SourceText _text;
         private readonly ImmutableArray<SyntaxToken> _tokens;
         private int _position;
-        //public DiagnosticBag Diagnostics => _diagnostics;
+        public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(SourceText text)
         {            
             var tokens = new List<SyntaxToken>();
@@ -50,11 +50,11 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             _diagnostics.ReportUnexpectedToken(Current.Span, Current.Kind, kind);
             return new SyntaxToken(kind, Current.Position, null, null);
         }
-        public SyntaxTree Parse()
+        public CompilationUnitSyntax ParseCompilationUnit()
         {
             var expression = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new SyntaxTree(_text, _diagnostics.ToImmutableArray(), expression, endOfFileToken);
+            return new CompilationUnitSyntax(expression, endOfFileToken);
         }
         private ExpressionSyntax ParseExpression()
         {
