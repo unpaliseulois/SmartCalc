@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using SmartCalc.Global.CodeAnalysis.Text;
-using SmartCalc.Global.Compilation;
 using static System.Console;
+using static System.ConsoleColor;
 
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
@@ -45,22 +45,38 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         }
         private static void PrettyPrint(TextWriter writer, SyntaxNode node, string indent = "", bool isLast = true)
         {
+            var isToConsole = writer == Out;
             var marker = isLast ? "└──" : "├──";
+
             writer.Write(indent);
-            writer.Write(marker);
+            if (isToConsole)
+            {
+                ForegroundColor = DarkGray;
+                writer.Write(marker);
+                
+            }
+
+            if(isToConsole)
+                ForegroundColor = node is SyntaxToken ? Blue : Cyan;
             writer.Write(node.Kind);
+
             if (node is SyntaxToken t && t.Value != null)
             {
                 writer.Write(" ");
                 writer.Write(t.Value);
             }
+
+            if(isToConsole)
+                ResetColor();
             writer.WriteLine();
+
             indent += isLast ? "   " : "│  ";
 
 
             var lastChild = node.GetChildren().LastOrDefault();
             foreach (var child in node.GetChildren())
                 PrettyPrint(writer, child, indent, child == lastChild);
+            //ResetColor();
         }
         public override string ToString()
         {
