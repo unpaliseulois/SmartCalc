@@ -22,7 +22,7 @@ namespace SmartCalc.Main
 
             while (true)
             {
-                
+
                 var appName = "SmartCalc";
                 var userName = UserName;
                 userName = userName[0].ToString().ToUpper() + userName.Substring(1);
@@ -89,7 +89,7 @@ namespace SmartCalc.Main
                     }
                     else if (clearCmmands.Contains(input.ToLower()))
                     {
-                        Clear();                        
+                        Clear();
                         ResetColor();
                         continue;
                     }
@@ -98,9 +98,9 @@ namespace SmartCalc.Main
                         Environment.Exit(0);
                     }
                 }
-                
+
                 //error here
-                textBuilder.AppendLine(input);                              
+                textBuilder.AppendLine(input);
                 var text = textBuilder.ToString();
                 var syntaxTree = SyntaxTree.Parse(text);
 
@@ -121,20 +121,23 @@ namespace SmartCalc.Main
                 if (!diagnostics.Any())
                 {
                     ForegroundColor = Gray;
-                    WriteLine(result.Value);
+                    Write(result.Value);
                     ResetColor();
                 }
                 else
                 {
+                    
+                    WriteLine();
                     foreach (var diagnostic in diagnostics)
                     {
+
                         var lineIndex = syntaxTree.Text.GetLineIndex(diagnostic.Span.Start);
                         var line = syntaxTree.Text.Lines[lineIndex];
                         var rowNumber = lineIndex + 1;
                         var columnNumber = diagnostic.Span.Start - line.Start + 1;
 
                         ForegroundColor = DarkRed;
-                        Write($"\n    [Row:{rowNumber} - Column:{columnNumber}] :: ");
+                        Write($"    [Row:{rowNumber} - Column:{columnNumber}] :: ");
                         WriteLine($"{diagnostic}\n");
                         ResetColor();
 
@@ -148,12 +151,14 @@ namespace SmartCalc.Main
                         Write($"    {prefix}");
                         ForegroundColor = DarkRed;
 
-                        Write(error);
+                        Write($"{error}");
                         ResetColor();
                         WriteLine($"{sufix}\n");
                         ResetColor();
                     }
+                    //WriteLine();                    
                 }
+                //WriteLine();
                 textBuilder.Clear();
             }
         }
