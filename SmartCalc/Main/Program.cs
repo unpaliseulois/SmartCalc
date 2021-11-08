@@ -19,8 +19,7 @@ namespace SmartCalc.Main
             var variables = new Dictionary<VariableSymbol, object>();
             var textBuilder = new StringBuilder();
             var textBuilderToDisplay = new StringBuilder();
-
-
+            Compilation previous = null;
             while (true)
             {
                 var appName = "SmartCalc";
@@ -82,6 +81,7 @@ namespace SmartCalc.Main
                     else if (input.ToLower() == "ht")
                     {
                         var msg = string.Empty;
+                        WriteLine();
                         if (displayTree == true)
                         {
                             displayTree = false;
@@ -95,12 +95,30 @@ namespace SmartCalc.Main
                         }
                         WriteLine(msg);
                         ResetColor();
+                        WriteLine();
                         continue;
                     }
                     else if (clearCmmands.Contains(input.ToLower()))
                     {
                         Clear();
                         ResetColor();
+                        continue;
+                    }
+                    else if (input.ToLower() == "vmr")
+                    {
+                        WriteLine();
+                        if (previous != null)
+                        {
+                            previous = null;
+                            ForegroundColor = DarkYellow;
+                            WriteLine("The variables memory reset Successfully.");
+                        }
+                        else
+                        {
+                            ForegroundColor = DarkCyan;
+                            WriteLine("The variables memory is already reset.");
+                        }
+                        WriteLine();
                         continue;
                     }
                     else if (exitCommands.Contains(input.ToLower()))
@@ -118,7 +136,9 @@ namespace SmartCalc.Main
 
                 if (!isBlank && syntaxTree.Diagnostics.Any())
                     continue;
-                var compilation = new Compilation(syntaxTree);
+                var compilation = previous == null ? new Compilation(syntaxTree)
+                                                   : previous.ContinueWith(syntaxTree);
+
                 var result = compilation.Evaluate(variables);
                 var diagnostics = result.Diagnostics;
                 if (displayTree)
@@ -129,22 +149,12 @@ namespace SmartCalc.Main
                 }
                 if (!diagnostics.Any())
                 {
-                    /*                   
-                    ForegroundColor = Gray;
-                    Write($"    \n{textToDisplay}");
-                    ForegroundColor = DarkYellow;
-                    Write(" = ");
-                    ForegroundColor = Green;
-                    Write($"{result.Value}\n");
-                    ResetColor();
-                    //*/
                     Write($"\n    ");
                     FormatResult(textToDisplay);
-                    ForegroundColor = DarkYellow;
-                    Write(" = ");
                     ForegroundColor = Green;
                     Write($"{result.Value}\n");
                     ResetColor();
+                    previous = compilation;
                 }
                 else
                 {
@@ -186,48 +196,32 @@ namespace SmartCalc.Main
             }
         }
 
-        private static void FormatResult(string output)
+        private static void FormatResult(string input)
         {
             char[] operators = { '+', '-', '*', '/', '^' };
             char[] parenthesis = { '(', ')' };
-            foreach (char c in output)
-            {
-                if (operators.Contains(c))
+            if (!int.TryParse(input, out var result))
+            {                
+                foreach (char c in input)
                 {
-                    ForegroundColor = DarkYellow;
+                    if (operators.Contains(c))
+                    {
+                        ForegroundColor = DarkYellow;
+                    }
+                    else if (parenthesis.Contains(c))
+                    {
+                        ForegroundColor = DarkCyan;
+                    }
+                    else
+                    {
+                        ForegroundColor = Cyan;
+                    }
+                    Write(c);
                 }
-                else if (parenthesis.Contains(c))
-                {
-                    ForegroundColor = DarkCyan;
-                }
-                else
-                {
-                    ForegroundColor = Cyan;
-                }
-                Write(c);
+                ForegroundColor = DarkYellow;
+                Write(" = ");
             }
             ResetColor();
-
         }
-        /*
-        static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
-        {
-            var marker = isLast ? "└──" : "├──";
-            Write(indent);
-            Write(marker);
-            Write(node.Kind);
-            if (node is SyntaxToken t && t.Value != null)
-            {
-                Write(" ");
-                Write(t.Value);
-            }
-            WriteLine();
-            indent += isLast ? "   " : "│  ";
-
-            var lastChild = node.GetChildren().LastOrDefault();
-            foreach (var child in node.GetChildren())
-                PrettyPrint(child, indent, child == lastChild);
-        }
-        //*/
     }
 }

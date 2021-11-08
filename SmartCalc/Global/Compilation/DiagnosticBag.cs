@@ -64,9 +64,18 @@ namespace SmartCalc.Global.Compilation
             Report(span, message);
         }
 
-        internal void ReportDivisionByZero(TextSpan span, string message)
-        {            
-            Report(span,message);
+        public void ReportDivisionByZero(TextSpan span, string message)
+        {
+            Report(span, message);
+        }        
+
+        public void ReportCannotConvert(TextSpan span, Type fromType, Type toType)
+        {
+            var fType = fromType.ToString().Split('.')[1];
+            var tType = toType.ToString().Split('.')[1];
+            var message = $"Cannot convert '{fType}' type to '{tType}' type.";
+            Report(span, message);
+
         }
     }
 }
