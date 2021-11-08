@@ -75,16 +75,15 @@ On_IWhite='\033[0;107m'   # White
 
 function IsOnline()
 {
-    if [[ $(curl -s -D - http://www.gstatic.com/generate_204 2>/dev/null | head -1 | cut -d' ' -f 2) == "204" ]]; then
+    if [[ $(curl -s -D - http://www.gstatic.com/generate_204 2>/dev/null | head -1 | cut -d' ' -f 2) == "204" ]]
+    then
         #echo 'online'
         return 0
     else
         #echo 'offline'
         return 1
-    fi
-    
+    fi    
 }
-
 
 function PrintCenter(){
     if [ "$1" != "" ]
@@ -95,7 +94,6 @@ function PrintCenter(){
         return 1
     fi
 }
-
 display_file_center(){
     columns="$(tput cols)"
     while IFS= read -r line; do
