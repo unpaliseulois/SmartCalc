@@ -49,15 +49,64 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             var marker = isLast ? "└──" : "├──";
 
             writer.Write(indent);
+
+            if (isToConsole)
+                ForegroundColor = DarkGray;
+            writer.Write(marker);
+
+
             if (isToConsole)
             {
-                ForegroundColor = DarkGray;
-                writer.Write(marker);
-                
+                switch (node.Kind)
+                {
+                    case SyntaxKind.BadToken:
+                        ForegroundColor = DarkRed;
+                        break;
+                    case SyntaxKind.ParenthesizedExpression:
+                        ForegroundColor = DarkMagenta;
+                        break;
+                    case SyntaxKind.OpenParenthesisToken:
+                    case SyntaxKind.CloseParenthesisToken:
+                        ForegroundColor = Magenta;
+                        break;
+                    case SyntaxKind.PlusToken:
+                    case SyntaxKind.MinusToken:
+                    case SyntaxKind.StarToken:
+                    case SyntaxKind.SlashToken:
+                    case SyntaxKind.StarStarToken:
+                    case SyntaxKind.HatToken:
+                        ForegroundColor = DarkYellow;
+                        break;
+                    case SyntaxKind.IdentifierToken:
+                        ForegroundColor = DarkGreen;
+                        break;
+                    case SyntaxKind.AmpersandToken:
+                    case SyntaxKind.AmpersandAmpersandToken:
+                    case SyntaxKind.EqualsToken:
+                    case SyntaxKind.EqualsEqualsToken:
+                    case SyntaxKind.PipeToken:
+                    case SyntaxKind.PipePipeToken:
+                    case SyntaxKind.BangEqualsToken:
+                        ForegroundColor = Yellow;
+                        break;
+                    case SyntaxKind.NumberToken:
+                        ForegroundColor = DarkBlue;
+                        break;
+                    case SyntaxKind.AssignmentExpression:
+                    case SyntaxKind.LiteralExpression:
+                    case SyntaxKind.UnaryExpression:
+                    case SyntaxKind.BinaryExpression:
+                    case SyntaxKind.NameExpression:
+                        ForegroundColor = Blue;
+                        break;
+                    default:
+                        ResetColor();
+                        break;
+                }
+
             }
 
-            if(isToConsole)
-                ForegroundColor = node is SyntaxToken ? Blue : Cyan;
+
             writer.Write(node.Kind);
 
             if (node is SyntaxToken t && t.Value != null)
@@ -66,7 +115,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 writer.Write(t.Value);
             }
 
-            if(isToConsole)
+            if (isToConsole)
                 ResetColor();
             writer.WriteLine();
 
