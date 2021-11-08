@@ -73,6 +73,19 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
+function IsOnline()
+{
+    if [[ $(curl -s -D - http://www.gstatic.com/generate_204 2>/dev/null | head -1 | cut -d' ' -f 2) == "204" ]]; then
+        #echo 'online'
+        return 0
+    else
+        #echo 'offline'
+        return 1
+    fi
+    
+}
+
+
 function PrintCenter(){
     if [ "$1" != "" ]
     then
@@ -164,6 +177,7 @@ function ResultTest(){
         return 1
     fi
 }
+
 function AutoGit(){
     if [ "$1" != "" ]
     then
@@ -217,10 +231,10 @@ function AutoGit(){
             return 1
         fi
         if [ "$statusResult" == "0" ] \
-            && [ "$addResult" == "0" ] \
-            && [ "$newStatusResult" == "0" ] \
-            && [ "$commitResult" == "0" ] \
-            && [ "$pushResult" == "0" ]
+        && [ "$addResult" == "0" ] \
+        && [ "$newStatusResult" == "0" ] \
+        && [ "$commitResult" == "0" ] \
+        && [ "$pushResult" == "0" ]
         then
             echo -e "${BGreen}The git process has completed successfully.${ResetColor}"
             echo
@@ -236,19 +250,23 @@ function AutoGit(){
         if [ "$2" == "" ]
         then
             echo " -> Commit message is missing."
-        fi        
+        fi
         
         if [ "$1" == "" ]
         then
             echo " -> Git branch is missing."
-        fi        
+        fi
         echo
         echo -e "${BYellow}Usage: auto-git <Branch Name> <Commit message>."
         echo -e "OR":
         echo -e "Usage: auto-git <Branch Name>.${ResetColor}"
     fi
 }
-
-AutoGit "$1" "$2"
-
+IsOnline
+if [ $? -eq 0 ]
+then
+    AutoGit "$1" "$2"
+else
+    echo -e "\n${BRed}It is not possible to communicate with the git server.\nNo network connection has been detected on your machine.\nCheck your internet connection and try again to update your git repository.\n"
+fi
 
