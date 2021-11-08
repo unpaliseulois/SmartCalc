@@ -6,6 +6,9 @@ using static System.Environment;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 using System.Collections.Generic;
 using SmartCalc.Global.Compilation;
+using System.Text;
+using SmartCalc.Global.CodeAnalysis.Text;
+
 namespace SmartCalc.Main
 {
     internal static class Program
@@ -14,77 +17,98 @@ namespace SmartCalc.Main
         {
             var displayTree = false;
             var variables = new Dictionary<VariableSymbol, object>();
+            var textBuilder = new StringBuilder();
+
 
             while (true)
             {
+                
                 var appName = "SmartCalc";
                 var userName = UserName;
                 userName = userName[0].ToString().ToUpper() + userName.Substring(1);
 
-                Write($"{userName}@{appName} :: ");
-                var line = ReadLine();
+                Title = appName;
 
-                if (string.IsNullOrWhiteSpace(line))
-                    return;
+                if (textBuilder.Length == 0)
+                    Write($"{userName}@{appName} :: ");
+                else
+                    Write("> ");
 
-                else if (line.ToLower() == "dt")
+
+                var input = ReadLine();
+                var isBlank = string.IsNullOrWhiteSpace(input);
+
+
+                if (textBuilder.Length == 0)
                 {
-                    var msg = string.Empty;
-                    if (displayTree == false)
+                    // Clear
+                    string[] clearCmmands = { "cc", "cls", "clear", "wipe", "wc", "clean", "cs" };
+                    // Exit
+                    string[] exitCommands = { "e", "exit", "terminate", "close", "bye" };
+                    if (isBlank)
                     {
-                        displayTree = true;
-                        ForegroundColor = DarkGreen;
-                        msg = "Display trees is enabled.";
+                        continue;
+                    }
+                    else if (input.ToLower() == "dt")
+                    {
+                        var msg = string.Empty;
+                        if (displayTree == false)
+                        {
+                            displayTree = true;
+                            ForegroundColor = DarkGreen;
+                            msg = "Display trees is enabled.";
 
+                        }
+                        else
+                        {
+                            ForegroundColor = DarkYellow;
+                            msg = "Display trees is already enabled.";
+                        }
+                        WriteLine(msg);
+                        ResetColor();
+                        continue;
                     }
-                    else
+                    else if (input.ToLower() == "ht")
                     {
-                        ForegroundColor = DarkYellow;
-                        msg = "Display trees is already enabled.";
-                    }
-                    WriteLine(msg);
-                    ResetColor();
-                    continue;
-                }
-                else if (line.ToLower() == "ht")
-                {
-                    var msg = string.Empty;
-                    if (displayTree == true)
-                    {
-                        displayTree = false;
-                        ForegroundColor = DarkYellow;
-                        msg = "Display trees is disabled.";
+                        var msg = string.Empty;
+                        if (displayTree == true)
+                        {
+                            displayTree = false;
+                            ForegroundColor = DarkYellow;
+                            msg = "Display trees is disabled.";
 
+                        }
+                        else
+                        {
+                            ForegroundColor = DarkCyan;
+                            msg = "Display trees is already disabled.";
+                        }
+                        WriteLine(msg);
+                        ResetColor();
+                        continue;
                     }
-                    else
+                    else if (clearCmmands.Contains(input.ToLower()))
                     {
-                        ForegroundColor = DarkCyan;
-                        msg = "Display trees is already disabled.";
+                        Clear();                        
+                        ResetColor();
+                        continue;
                     }
-                    WriteLine(msg);
-                    ResetColor();
-                    continue;
+                    else if (exitCommands.Contains(input.ToLower()))
+                    {
+                        Environment.Exit(0);
+                    }
                 }
                 
-                // Clear
-                string[] clearCmmands = { "cc", "cls", "clear", "wipe", "wc", "clean", "cs" };
-                if (clearCmmands.Contains(line.ToLower()))
-                {
-                    Clear();
-                    ResetColor();
-                    continue;
-                }
-                // Exit
-                string[] exitCommands = { "e", "exit", "terminate", "close", "bye" };
-                if (exitCommands.Contains(line.ToLower()))
-                {
-                    Environment.Exit(0);
-                }
+                //error here
+                textBuilder.AppendLine(input);                              
+                var text = textBuilder.ToString();
+                var syntaxTree = SyntaxTree.Parse(text);
 
-                var syntaxTree = SyntaxTree.Parse(line);
+                if (!isBlank && syntaxTree.Diagnostics.Any())
+                    continue;
+
                 var compilation = new Compilation(syntaxTree);
                 var result = compilation.Evaluate(variables);
-
                 var diagnostics = result.Diagnostics;
 
                 if (displayTree)
@@ -102,30 +126,35 @@ namespace SmartCalc.Main
                 }
                 else
                 {
-                    var text = syntaxTree.Text;
                     foreach (var diagnostic in diagnostics)
                     {
-                        var lineIndex = text.GetLineIndex(diagnostic.Span.Start);
-                        var lineNumber = lineIndex + 1;
+                        var lineIndex = syntaxTree.Text.GetLineIndex(diagnostic.Span.Start);
+                        var line = syntaxTree.Text.Lines[lineIndex];
+                        var rowNumber = lineIndex + 1;
+                        var columnNumber = diagnostic.Span.Start - line.Start + 1;
 
-                        var character = diagnostic.Span.Start - text.Lines[lineIndex].Start + 1;
                         ForegroundColor = DarkRed;
-                        Write($"\n    [Row:{lineNumber} - Column:{character}] :: ");
+                        Write($"\n    [Row:{rowNumber} - Column:{columnNumber}] :: ");
                         WriteLine($"{diagnostic}\n");
                         ResetColor();
 
-                        var prefix = line.Substring(0, diagnostic.Span.Start);
-                        var error = line.Substring(diagnostic.Span.Start, diagnostic.Span.Length);
-                        var sufix = line.Substring(diagnostic.Span.End);
+                        var prefixSpan = TextSpan.FromBounds(line.Start, diagnostic.Span.Start);
+                        var sufixSpan = TextSpan.FromBounds(diagnostic.Span.End, line.End);
+
+                        var prefix = syntaxTree.Text.ToString(prefixSpan);
+                        var error = syntaxTree.Text.ToString(diagnostic.Span);
+                        var sufix = syntaxTree.Text.ToString(sufixSpan);
+
                         Write($"    {prefix}");
                         ForegroundColor = DarkRed;
 
                         Write(error);
                         ResetColor();
                         WriteLine($"{sufix}\n");
+                        ResetColor();
                     }
-                    ResetColor();
                 }
+                textBuilder.Clear();
             }
         }
         /*

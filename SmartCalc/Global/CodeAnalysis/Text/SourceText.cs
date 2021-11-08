@@ -9,10 +9,10 @@ namespace SmartCalc.Global.CodeAnalysis.Text
         private readonly string _text;
         private SourceText(string text)
         {
-            Lines = ParseLines(this, text);
             _text = text;
+            Lines = ParseLines(this, text);            
         }
-        public ImmutableArray<TextLine> Lines { get; private set; }
+        public ImmutableArray<TextLine> Lines { get; }
         public char this[int index] => _text[index];
         public int Length => _text.Length;
         public int GetLineIndex(int position)
@@ -76,9 +76,9 @@ namespace SmartCalc.Global.CodeAnalysis.Text
             char c = text[position];
             var l = position + 1 >= text.Length ? '\0' : text[position + 1];
 
-            if (c == '\r' && c == '\n')
+            if (c == '\r' && l == '\n')
                 return 2;
-            if (c == '\r' || c == '\n')
+            else if (c == '\r' || c == '\n')
                 return 1;
             return 0;
         }

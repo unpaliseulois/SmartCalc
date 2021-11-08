@@ -8,8 +8,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
     internal sealed class Parser
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+                private readonly SourceText _text;
         private readonly ImmutableArray<SyntaxToken> _tokens;
-        private readonly SourceText _text;
         private int _position;
         //public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(SourceText text)

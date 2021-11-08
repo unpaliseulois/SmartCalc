@@ -25,7 +25,6 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         }
         public static SyntaxTree Parse(SourceText text)
         {
-
             var parser = new Parser(text);
             return parser.Parse();
         }
