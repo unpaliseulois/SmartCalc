@@ -106,6 +106,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "=";
                 case SyntaxKind.BangEqualsToken:
                     return "!=";
+                case SyntaxKind.OpenPraceToken:
+                    return "{";
+                case SyntaxKind.ClosePraceToken:
+                    return "}";
                 case SyntaxKind.OpenParenthesisToken:
                     return "(";
                 case SyntaxKind.CloseParenthesisToken:

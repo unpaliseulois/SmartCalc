@@ -91,6 +91,18 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                         _position++;
                     }
                     break;
+                case '{':
+                    {
+                        _kind = SyntaxKind.OpenPraceToken;
+                        _position++;
+                    }
+                    break;
+                case '}':
+                    {
+                        _kind = SyntaxKind.ClosePraceToken;
+                        _position++;
+                    }
+                    break;
                 case '!':
                     _position++;
                     if (Current == '=')

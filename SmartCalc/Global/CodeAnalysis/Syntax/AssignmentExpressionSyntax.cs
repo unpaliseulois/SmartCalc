@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-
-
 namespace SmartCalc.Global.CodeAnalysis.Syntax
 {
     public sealed class AssignmentExpressionSyntax : ExpressionSyntax
@@ -14,7 +11,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         public override SyntaxKind Kind => SyntaxKind.AssignmentExpression;
         public SyntaxToken IdentifierToken { get; }
         public SyntaxToken EqaulsToken { get; }
-        public ExpressionSyntax Expression { get; }        
+        public ExpressionSyntax Expression { get; }
     }
 }
 

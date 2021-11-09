@@ -4,7 +4,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
     {
         // Tokens
         BadToken,
-        EndOfFileToken,        
+        EndOfFileToken,
         WhiteSpaceToken,
         NumberToken,
         HatToken,
@@ -20,19 +20,23 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         AmpersandToken,
         EqualsEqualsToken,
         EqualsToken,
-        BangEqualsToken   ,     
+        BangEqualsToken,
         OpenParenthesisToken,
         CloseParenthesisToken,
         IdentifierToken,
+        OpenPraceToken,
+        ClosePraceToken,
         //ComaToken,        
 
         // Keywords
         FalseKeyword,
         TrueKeyword,
 
-        // Nodes
-        
+        // Nodes        
         CompilationUnit,
+
+        // Statements
+        BlockStatement,
 
         // Expressions
         LiteralExpression,
@@ -40,7 +44,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         AssignmentExpression,
         UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression
+        ParenthesizedExpression,
+        ExpressionStatement        
     }
 }
 

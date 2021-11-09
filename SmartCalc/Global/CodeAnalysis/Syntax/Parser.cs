@@ -8,12 +8,12 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
     internal sealed class Parser
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
-                private readonly SourceText _text;
+        private readonly SourceText _text;
         private readonly ImmutableArray<SyntaxToken> _tokens;
         private int _position;
         public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(SourceText text)
-        {            
+        {
             var tokens = new List<SyntaxToken>();
             var lexer = new Lexer(text);
             SyntaxToken token;
@@ -24,10 +24,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     && token.Kind != SyntaxKind.BadToken)
                     tokens.Add(token);
             } while (token.Kind != SyntaxKind.EndOfFileToken);
-            
+
             _text = text;
             _tokens = tokens.ToImmutableArray();
-            _diagnostics.AddRange(lexer.Diagnostics);            
+            _diagnostics.AddRange(lexer.Diagnostics);
         }
         private SyntaxToken Peek(int offset)
         {
@@ -52,9 +52,38 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         }
         public CompilationUnitSyntax ParseCompilationUnit()
         {
-            var expression = ParseExpression();
+            var statement = ParseStatement();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new CompilationUnitSyntax(expression, endOfFileToken);
+            return new CompilationUnitSyntax(statement, endOfFileToken);
+        }
+        private StatementSyntax ParseStatement()
+        {
+            if (Current.Kind == SyntaxKind.OpenPraceToken)
+                return ParseBlockStatement();
+            return ParseExpressionStatement();
+        }
+        private BlockStatementSyntax ParseBlockStatement()
+        {
+            var statements = ImmutableArray.CreateBuilder<StatementSyntax>();
+            var openPraceToken = MatchToken(SyntaxKind.OpenPraceToken);
+
+            while (Current.Kind != SyntaxKind.EndOfFileToken
+                   &&
+                   Current.Kind != SyntaxKind.ClosePraceToken)
+            {
+                var statement = ParseStatement();
+                statements.Add(statement);
+            }
+
+            var closePraceToken = MatchToken(SyntaxKind.ClosePraceToken);
+            return new BlockStatementSyntax(openPraceToken,
+                                            statements.ToImmutable(),
+                                            closePraceToken);
+        }
+        private ExpressionStatementSyntax ParseExpressionStatement()
+        {
+            var expression = ParseExpression();
+            return new ExpressionStatementSyntax(expression);
         }
         private ExpressionSyntax ParseExpression()
         {
@@ -128,7 +157,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         private ExpressionSyntax ParseBooleanLiteral()
         {
             var isTrue = Current.Kind == SyntaxKind.TrueKeyword;
-            var keywordToken = isTrue ? MatchToken(SyntaxKind.TrueKeyword) :MatchToken(SyntaxKind.FalseKeyword);
+            var keywordToken = isTrue ? MatchToken(SyntaxKind.TrueKeyword) : MatchToken(SyntaxKind.FalseKeyword);
             return new LiteralExpressionSyntax(keywordToken, isTrue);
         }
         private ExpressionSyntax ParseNameExpression()
