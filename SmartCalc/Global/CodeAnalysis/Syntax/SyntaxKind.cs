@@ -30,13 +30,17 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
 
         // Keywords
         FalseKeyword,
+        LetKeyword,
         TrueKeyword,
+        VarKeyword,
 
         // Nodes        
         CompilationUnit,
 
         // Statements
-        BlockStatement,
+        BlockStatement,        
+        VariableDeclaration,
+        ExpressionStatement,
 
         // Expressions
         LiteralExpression,
@@ -44,8 +48,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         AssignmentExpression,
         UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression,
-        ExpressionStatement        
+        ParenthesizedExpression
     }
 }
 

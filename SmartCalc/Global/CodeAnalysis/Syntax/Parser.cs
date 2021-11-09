@@ -58,9 +58,16 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         }
         private StatementSyntax ParseStatement()
         {
-            if (Current.Kind == SyntaxKind.OpenPraceToken)
-                return ParseBlockStatement();
-            return ParseExpressionStatement();
+            switch (Current.Kind)
+            {
+                case SyntaxKind.OpenPraceToken:
+                    return ParseBlockStatement();
+                case SyntaxKind.LetKeyword:
+                case SyntaxKind.VarKeyword:
+                    return ParseVariableDeclaration();
+                default:
+                    return ParseExpressionStatement();
+            }
         }
         private BlockStatementSyntax ParseBlockStatement()
         {
@@ -79,6 +86,16 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             return new BlockStatementSyntax(openPraceToken,
                                             statements.ToImmutable(),
                                             closePraceToken);
+        }
+        private StatementSyntax ParseVariableDeclaration()
+        {
+            var expected = Current.Kind == SyntaxKind.LetKeyword 
+                                        ? SyntaxKind.LetKeyword : SyntaxKind.VarKeyword;
+            var keyword = MatchToken(expected);
+            var identifier = MatchToken(SyntaxKind.IdentifierToken);
+            var equals = MatchToken(SyntaxKind.EqualsToken);
+            var intializer = ParseExpression();
+            return new VariableDeclarationSyntax(keyword,identifier,equals,intializer);
         }
         private ExpressionStatementSyntax ParseExpressionStatement()
         {

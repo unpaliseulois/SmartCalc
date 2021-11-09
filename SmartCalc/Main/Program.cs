@@ -174,7 +174,7 @@ namespace SmartCalc.Main
                         var sufix = syntaxTree.Text.ToString(sufixSpan);
 
                         ForegroundColor = DarkYellow;
-                        Write($"    [{prefix}");
+                        Write($"    [{prefix.Trim()}");
                         ForegroundColor = DarkRed;
                         Write($"{error}");
                         ForegroundColor = DarkYellow;

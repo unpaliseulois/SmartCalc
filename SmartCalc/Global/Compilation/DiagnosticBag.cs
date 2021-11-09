@@ -77,6 +77,18 @@ namespace SmartCalc.Global.Compilation
             Report(span, message);
 
         }
+
+        public void ReportVariableAlreadyDeclared(TextSpan span, string name)
+        {
+            var message = $"Variable '{name}' is already declared.";
+            Report(span, message);
+        }
+
+        public void ReportCannotAssign(TextSpan span, string name)
+        {
+            var message = $"Variable '{name}' is ready only and cannot be assigned to.";
+            Report(span, message);
+        }
     }
 }
 

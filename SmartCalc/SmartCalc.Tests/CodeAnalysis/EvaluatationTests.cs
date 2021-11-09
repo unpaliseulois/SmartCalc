@@ -48,7 +48,7 @@ namespace SmartCalc.Tests.CodeAnalysis
         [InlineData("true || false", true)]        
         [InlineData("false || false", false)]
 
-        [InlineData("(a=10) * a", 100)]
+        [InlineData("{ var a = 0 ( a = 10 ) * a }", 100)]
                 
         public void SyntaxFact_GetText_RoundTrips(string text, object expectedResult)
         {

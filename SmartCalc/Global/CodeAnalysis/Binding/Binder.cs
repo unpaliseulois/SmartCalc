@@ -56,6 +56,8 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             {
                 case SyntaxKind.BlockStatement:
                     return BindBlockStatement((BlockStatementSyntax)syntax);
+                case SyntaxKind.VariableDeclaration:
+                    return BindVariableDeclaration((VariableDeclarationSyntax)syntax);
                 case SyntaxKind.ExpressionStatement:
                     return BindExpressionStatement((ExpressionStatementSyntax)syntax);
 
@@ -63,18 +65,33 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
                     throw new Exception($"Unexpected syntax '{syntax.Kind}'.");
             }
         }
-
         private BoundBlockStatement BindBlockStatement(BlockStatementSyntax syntax)
         {
             var statements = ImmutableArray.CreateBuilder<BoundStatement>();
+            _scope = new BoundScope(_scope);
+
             foreach (var statementSyntax in syntax.Statements)
             {
                 var statement = BindStatement(statementSyntax);
                 statements.Add(statement);
             }
+
+            _scope = _scope.Parent;
+
             return new BoundBlockStatement(statements.ToImmutable());
         }
+        private BoundStatement BindVariableDeclaration(VariableDeclarationSyntax syntax)
+        {
+            var name = syntax.Identifier.Text;
+            var isReadOnly = syntax.Keyword.Kind == SyntaxKind.LetKeyword;
+            var intitializer = BindExpression(syntax.Initializer);
+            var variable = new VariableSymbol(name, isReadOnly, intitializer.Type);
 
+            if (!_scope.TryDeclare(variable))
+                _diagnostics.ReportVariableAlreadyDeclared(syntax.Identifier.Span, name);
+            return new BoundVariableDeclaration(variable,intitializer);
+
+        }
         private BoundExpressionStatement BindExpressionStatement(ExpressionStatementSyntax syntax)
         {
             var expression = BindExpression(syntax.Expression);
@@ -129,9 +146,11 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
 
             if (!_scope.TryLookUp(name, out var variable))
             {
-                variable = new VariableSymbol(name, boundExpression.Type);
-                _scope.TryDeclare(variable);
+                _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
+                return boundExpression;                
             }
+            if(variable.IsReadOnly)
+                _diagnostics.ReportCannotAssign(syntax.EqaulsToken.Span, name);
 
             if (boundExpression.Type != variable.Type)
             {
