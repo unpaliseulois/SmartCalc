@@ -26,6 +26,18 @@ namespace SmartCalc.Tests.CodeAnalysis
         [InlineData("12 != 3", true)]
         [InlineData("3 != 3", false)]
 
+        [InlineData("3 < 4", true)]
+        [InlineData("5 < 4", false)]
+        [InlineData("4 <= 4", true)]
+        [InlineData("4 <= 5", true)]
+        [InlineData("5 <= 4", false)]
+
+         [InlineData("4 > 3", true)]
+        [InlineData("4 > 5", false)]
+        [InlineData("4 >= 4", true)]
+        [InlineData("5 >= 5", true)]
+        [InlineData("4 >= 5", false)]
+
         [InlineData("true", true)]
         [InlineData("false", false)]
         [InlineData("!true", false)]

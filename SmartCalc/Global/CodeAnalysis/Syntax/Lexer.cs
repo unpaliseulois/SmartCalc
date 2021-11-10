@@ -105,14 +105,38 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     break;
                 case '!':
                     _position++;
-                    if (Current == '=')
+                    if (Current != '=')
+                    {
+                        _kind = SyntaxKind.BangToken;
+                    }
+                    else
                     {
                         _kind = SyntaxKind.BangEqualsToken;
                         _position++;
                     }
+                    break;
+                    case '<':
+                    _position++;
+                    if (Current != '=')
+                    {
+                        _kind = SyntaxKind.LessToken;
+                    }
                     else
                     {
-                        _kind = SyntaxKind.BangToken;
+                        _kind = SyntaxKind.LessOrEqualsToken;
+                        _position++;
+                    }
+                    break;
+                     case '>':
+                    _position++;
+                    if (Current != '=')
+                    {
+                        _kind = SyntaxKind.GreaterToken;
+                    }
+                    else
+                    {
+                        _kind = SyntaxKind.GreaterOrEqualsToken;
+                        _position++;
                     }
                     break;
                 case '&':

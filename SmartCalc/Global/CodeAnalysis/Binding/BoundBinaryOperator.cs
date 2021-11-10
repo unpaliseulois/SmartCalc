@@ -31,11 +31,12 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
 
         private static BoundBinaryOperator[] _operators =
         {
-            // Binary Operation
+            // '^' | '**' 
             new BoundBinaryOperator(SyntaxKind.HatToken,
                 BoundBinaryOperatorKind.Power,typeof(int)),
             new BoundBinaryOperator(SyntaxKind.StarStarToken,
                 BoundBinaryOperatorKind.Power,typeof(int)),
+            // '*' | '/' | '+' | '-'
             new BoundBinaryOperator(SyntaxKind.StarToken,
                 BoundBinaryOperatorKind.Multiplication,typeof(int)),
             new BoundBinaryOperator(SyntaxKind.SlashToken,
@@ -44,15 +45,24 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
                 BoundBinaryOperatorKind.Addition,typeof(int)),
             new BoundBinaryOperator(SyntaxKind.MinusToken,
                 BoundBinaryOperatorKind.Substraction,typeof(int)),
-
-
+            // '==' | '!='
             new BoundBinaryOperator(SyntaxKind.EqualsEqualsToken,
                 BoundBinaryOperatorKind.Equals,typeof(int),typeof(bool)),
-
             new BoundBinaryOperator(SyntaxKind.BangEqualsToken,
                 BoundBinaryOperatorKind.NotEquals,typeof(int),typeof(bool)),
+            // '<' | '<=' | '>' | '>='
+            new BoundBinaryOperator(SyntaxKind.LessToken,
+                BoundBinaryOperatorKind.Less,typeof(int),typeof(bool)),
 
-            // Bool Operation
+            new BoundBinaryOperator(SyntaxKind.LessOrEqualsToken,
+                BoundBinaryOperatorKind.LessOrEquals,typeof(int),typeof(bool)),
+
+            new BoundBinaryOperator(SyntaxKind.GreaterToken,
+                BoundBinaryOperatorKind.Greater,typeof(int),typeof(bool)),
+
+            new BoundBinaryOperator(SyntaxKind.GreaterOrEqualsToken,
+                BoundBinaryOperatorKind.GreaterOrEquals,typeof(int),typeof(bool)),
+            // & | '|' | '&&' | '||' | '==' | '!='
             new BoundBinaryOperator(SyntaxKind.AmpersandToken,
                 BoundBinaryOperatorKind.LogicalAnd,typeof(bool)),
 

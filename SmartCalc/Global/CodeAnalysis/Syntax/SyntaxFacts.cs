@@ -32,6 +32,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return 4;
                 case SyntaxKind.EqualsEqualsToken:
                 case SyntaxKind.BangEqualsToken:
+                case SyntaxKind.LessToken:
+                case SyntaxKind.LessOrEqualsToken:
+                case SyntaxKind.GreaterToken:
+                case SyntaxKind.GreaterOrEqualsToken:
                     return 3;
                 case SyntaxKind.AmpersandToken:
                 case SyntaxKind.AmpersandAmpersandToken:
@@ -96,6 +100,16 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "-";
                 case SyntaxKind.BangToken:
                     return "!";
+                case SyntaxKind.BangEqualsToken:
+                    return "!=";
+                case SyntaxKind.LessToken:
+                    return "<";
+                case SyntaxKind.LessOrEqualsToken:
+                    return "<=";                
+                case SyntaxKind.GreaterToken:
+                    return ">";
+                case SyntaxKind.GreaterOrEqualsToken:
+                    return ">=";
                 case SyntaxKind.AmpersandAmpersandToken:
                     return "&&";
                 case SyntaxKind.PipePipeToken:
@@ -108,8 +122,6 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "==";
                 case SyntaxKind.EqualsToken:
                     return "=";
-                case SyntaxKind.BangEqualsToken:
-                    return "!=";
                 case SyntaxKind.OpenPraceToken:
                     return "{";
                 case SyntaxKind.ClosePraceToken:
