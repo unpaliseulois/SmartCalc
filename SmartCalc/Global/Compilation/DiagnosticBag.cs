@@ -75,7 +75,6 @@ namespace SmartCalc.Global.Compilation
             var tType = toType.ToString().Split('.')[1];
             var message = $"Cannot convert '{fType}' type to '{tType}' type.";
             Report(span, message);
-
         }
 
         public void ReportVariableAlreadyDeclared(TextSpan span, string name)
