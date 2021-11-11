@@ -39,6 +39,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         LetKeyword,
         TrueKeyword,
         VarKeyword,
+        WhileKeyword,
 
         // Nodes        
         CompilationUnit,
@@ -46,8 +47,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
 
         // Statements
         BlockStatement,
-        IfStatement,        
         VariableDeclaration,
+        IfStatement,
+        WhileStatement,      
         ExpressionStatement,
 
         // Expressions

@@ -34,21 +34,22 @@ namespace SmartCalc.Global.Compilation
                 case BoundNodeKine.IfStatement:
                     EvaluateIfStatement((BoundIfStatement)node);
                     break;
+                case BoundNodeKine.WhileStatement:
+                    EvaluateWhileStatement((BoundWhileStatement)node);
+                    break;
                 case BoundNodeKine.ExpressionStatement:
                     EvaluateExpressionStatement((BoundExpressionStatement)node);
                     break;
                 default:
                     throw new Exception($"Unexpected node '{node.Kind}'.");
             }
-        }        
-
+        }
         private void EvaluateVariableDeclaration(BoundVariableDeclaration node)
         {
             var value = EvaluateExpression(node.Initializer);
             _variables[node.Variable] = value;
             _lastValue = value;
-        }        
-
+        }
         private void EvaluateBlockStatement(BoundBlockStatement node)
         {
             foreach (var statement in node.Statements)
@@ -56,7 +57,6 @@ namespace SmartCalc.Global.Compilation
                 EvaluateStatement(statement);
             }
         }
-
         private void EvaluateIfStatement(BoundIfStatement node)
         {
             var condition = (bool)EvaluateExpression(node.Condition);
@@ -65,7 +65,13 @@ namespace SmartCalc.Global.Compilation
             else if(node.ElseStatement != null)
                 EvaluateStatement(node.ElseStatement);
         }
-
+        private void EvaluateWhileStatement(BoundWhileStatement node)
+        {
+            while ((bool)EvaluateExpression(node.Condition))
+            {
+                EvaluateStatement(node.Body);
+            }            
+        }
         private void EvaluateExpressionStatement(BoundExpressionStatement node)
         {
             _lastValue = EvaluateExpression(node.Expression);
