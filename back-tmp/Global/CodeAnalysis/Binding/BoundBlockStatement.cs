@@ -9,7 +9,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             Statements = statements;
         }
 
-        public override BoundNodeKine Kind => BoundNodeKine.BlockStatement;
+        public override BoundNodeKind Kind => BoundNodeKind.BlockStatement;
 
         public ImmutableArray<BoundStatement> Statements { get; }
     }

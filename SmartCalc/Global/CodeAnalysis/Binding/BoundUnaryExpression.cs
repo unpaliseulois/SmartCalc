@@ -11,7 +11,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             Operand = operand;
         }
 
-        public override BoundNodeKine Kind => BoundNodeKine.UnaryExpression;
+        public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
         public override Type Type => Op.Type;
         public BoundUnaryOperator Op { get; }
         public BoundExpression Operand { get; }

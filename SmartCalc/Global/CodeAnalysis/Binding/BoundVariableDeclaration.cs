@@ -9,7 +9,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             Variable = variable;
             Initializer = initializer;
         }
-        public override BoundNodeKine Kind => BoundNodeKine.VariableDeclaration;
+        public override BoundNodeKind Kind => BoundNodeKind.VariableDeclaration;
         public VariableSymbol Variable { get; }
         public BoundExpression Initializer { get; }
     }

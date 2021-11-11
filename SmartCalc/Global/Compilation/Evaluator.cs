@@ -25,25 +25,28 @@ namespace SmartCalc.Global.Compilation
         {
             switch (node.Kind)
             {
-                case BoundNodeKine.BlockStatement:
+                case BoundNodeKind.BlockStatement:
                     EvaluateBlockStatement((BoundBlockStatement)node);
                     break;
-                case BoundNodeKine.VariableDeclaration:
+                case BoundNodeKind.VariableDeclaration:
                     EvaluateVariableDeclaration((BoundVariableDeclaration)node);
                     break;
-                case BoundNodeKine.IfStatement:
+                case BoundNodeKind.IfStatement:
                     EvaluateIfStatement((BoundIfStatement)node);
                     break;
-                case BoundNodeKine.WhileStatement:
+                case BoundNodeKind.WhileStatement:
                     EvaluateWhileStatement((BoundWhileStatement)node);
                     break;
-                case BoundNodeKine.ExpressionStatement:
+                case BoundNodeKind.ForStatement:
+                    EvaluateForStatement((BoundForStatement)node);
+                    break;
+                case BoundNodeKind.ExpressionStatement:
                     EvaluateExpressionStatement((BoundExpressionStatement)node);
                     break;
                 default:
                     throw new Exception($"Unexpected node '{node.Kind}'.");
             }
-        }
+        }       
         private void EvaluateVariableDeclaration(BoundVariableDeclaration node)
         {
             var value = EvaluateExpression(node.Initializer);
@@ -72,6 +75,17 @@ namespace SmartCalc.Global.Compilation
                 EvaluateStatement(node.Body);
             }            
         }
+        private void EvaluateForStatement(BoundForStatement node)
+        {
+            var lowerBound = (int) EvaluateExpression(node.LowerBound);
+            var upperBound = (int) EvaluateExpression(node.UpperBound);          
+            
+            for(var i = lowerBound; i <= upperBound; i++)
+            {
+                _variables[node.Variable] = i;
+                EvaluateStatement(node.Body);
+            }
+        }
         private void EvaluateExpressionStatement(BoundExpressionStatement node)
         {
             _lastValue = EvaluateExpression(node.Expression);
@@ -81,15 +95,15 @@ namespace SmartCalc.Global.Compilation
         {
             switch (node.Kind)
             {
-                case BoundNodeKine.LiteralExpression:
+                case BoundNodeKind.LiteralExpression:
                     return EvaluateLiteralExpression((BoundLiteralExpression)node);
-                case BoundNodeKine.VariableExpression:
+                case BoundNodeKind.VariableExpression:
                     return EvaluateVariableExpression((BoundVariableExpression)node);
-                case BoundNodeKine.AssignmentExpression:
+                case BoundNodeKind.AssignmentExpression:
                     return EvaluateAssignmentExpression((BoundAssignmentExpression)node);
-                case BoundNodeKine.UnaryExpression:
+                case BoundNodeKind.UnaryExpression:
                     return EvaluateUnaryExpression((BoundUnaryExpression)node);
-                case BoundNodeKine.BinaryExpression:
+                case BoundNodeKind.BinaryExpression:
                     return EvaluateBinaryExpression((BoundBinaryExpression)node);
                 default:
                     throw new Exception($"Unexpected node '{node.Kind}'.");

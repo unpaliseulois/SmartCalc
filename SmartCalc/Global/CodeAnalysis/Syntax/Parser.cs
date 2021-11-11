@@ -65,6 +65,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 case SyntaxKind.LetKeyword:
                 case SyntaxKind.VarKeyword:
                     return ParseVariableDeclaration();
+                case SyntaxKind.ForKeyword:
+                    return ParseForeStatement();
                 case SyntaxKind.IfKeyword:
                     return ParseIfStatement();
                 case SyntaxKind.WhileKeyword:
@@ -93,13 +95,24 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         }
         private StatementSyntax ParseVariableDeclaration()
         {
-            var expected = Current.Kind == SyntaxKind.LetKeyword 
+            var expected = Current.Kind == SyntaxKind.LetKeyword
                                         ? SyntaxKind.LetKeyword : SyntaxKind.VarKeyword;
             var keyword = MatchToken(expected);
             var identifier = MatchToken(SyntaxKind.IdentifierToken);
             var equals = MatchToken(SyntaxKind.EqualsToken);
             var intializer = ParseExpression();
-            return new VariableDeclarationSyntax(keyword,identifier,equals,intializer);
+            return new VariableDeclarationSyntax(keyword, identifier, equals, intializer);
+        }
+        private StatementSyntax ParseForeStatement()
+        {
+            var keyword = MatchToken(SyntaxKind.ForKeyword);
+            var identifier = MatchToken(SyntaxKind.IdentifierToken);
+            var equalsToken = MatchToken(SyntaxKind.EqualsToken);
+            var lowerBound = ParseExpression();
+            var toKeyword = MatchToken(SyntaxKind.ToKeyword);
+            var upperBound = ParseExpression();
+            var body = ParseStatement();
+            return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound,toKeyword, upperBound, body);
         }
         private StatementSyntax ParseIfStatement()
         {
@@ -107,16 +120,16 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             var condition = ParseExpression();
             var body = ParseStatement();
             var elseClause = ParseElseClause();
-            return new IfStatementSyntax(keyword,condition,body,elseClause);
+            return new IfStatementSyntax(keyword, condition, body, elseClause);
         }
 
         private ElseClauseSyntax ParseElseClause()
         {
-            if(Current.Kind != SyntaxKind.ElseKeyword)
+            if (Current.Kind != SyntaxKind.ElseKeyword)
                 return null;
             var keyword = NextToken();
             var body = ParseStatement();
-            return new ElseClauseSyntax(keyword,body);
+            return new ElseClauseSyntax(keyword, body);
         }
         private StatementSyntax ParseWhileStatement()
         {
@@ -124,7 +137,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             var condition = ParseExpression();
             var body = ParseStatement();
 
-            return new WhileStatementSyntax(keyword,condition,body);
+            return new WhileStatementSyntax(keyword, condition, body);
         }
         private ExpressionStatementSyntax ParseExpressionStatement()
         {

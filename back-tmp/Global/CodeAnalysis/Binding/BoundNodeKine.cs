@@ -1,6 +1,6 @@
 namespace SmartCalc.Global.CodeAnalysis.Binding
 {
-    internal enum BoundNodeKine
+    internal enum BoundNodeKind
     {
         // Statements        
         BlockStatement,

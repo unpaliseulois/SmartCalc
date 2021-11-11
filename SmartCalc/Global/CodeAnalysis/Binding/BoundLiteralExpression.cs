@@ -10,7 +10,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             Value = value;
         }
 
-        public override BoundNodeKine Kind => BoundNodeKine.LiteralExpression;
+        public override BoundNodeKind Kind => BoundNodeKind.LiteralExpression;
         public override Type Type => Value.GetType();
         public object Value { get; }
     }

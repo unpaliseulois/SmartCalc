@@ -11,7 +11,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             Variable = variable;
             Expression = expression;
         }
-        public override BoundNodeKine Kind => BoundNodeKine.AssignmentExpression;
+        public override BoundNodeKind Kind => BoundNodeKind.AssignmentExpression;
         public override Type Type => Expression.Type;
         public VariableSymbol Variable { get; }
         public BoundExpression Expression { get; }

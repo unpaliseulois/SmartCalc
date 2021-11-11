@@ -7,7 +7,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             Expression = expression;
         }
 
-        public override BoundNodeKine Kind => BoundNodeKine.ExpressionStatement;
+        public override BoundNodeKind Kind => BoundNodeKind.ExpressionStatement;
 
         public BoundExpression Expression { get; }
     }

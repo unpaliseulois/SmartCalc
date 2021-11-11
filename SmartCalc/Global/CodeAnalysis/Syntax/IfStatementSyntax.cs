@@ -16,5 +16,3 @@ public sealed class IfStatementSyntax : StatementSyntax
     public StatementSyntax ThenStatement { get; }
     public ElseClauseSyntax ElseClause { get; }
 }
-
-

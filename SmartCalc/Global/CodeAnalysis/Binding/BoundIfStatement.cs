@@ -11,7 +11,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             ThenStatement = thenStatement;
             ElseStatement = elseStatement;
         }
-        public override BoundNodeKine Kind => BoundNodeKine.IfStatement;
+        public override BoundNodeKind Kind => BoundNodeKind.IfStatement;
         public BoundExpression Condition { get; }
         public BoundStatement ThenStatement { get; }
         public BoundStatement ElseStatement { get; }

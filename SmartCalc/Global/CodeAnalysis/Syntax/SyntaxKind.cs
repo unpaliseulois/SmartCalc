@@ -35,6 +35,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         // Keywords        
         ElseKeyword,
         FalseKeyword,
+        ForKeyword,
         IfKeyword,
         LetKeyword,
         TrueKeyword,
@@ -49,7 +50,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         BlockStatement,
         VariableDeclaration,
         IfStatement,
-        WhileStatement,      
+        WhileStatement,
+        ForStatement,        
+        ToKeyword,      
         ExpressionStatement,
 
         // Expressions

@@ -25,16 +25,16 @@ namespace SmartCalc.Global.Compilation
         {
             switch (node.Kind)
             {
-                case BoundNodeKine.BlockStatement:
+                case BoundNodeKind.BlockStatement:
                     EvaluateBlockStatement((BoundBlockStatement)node);
                     break;
-                case BoundNodeKine.VariableDeclaration:
+                case BoundNodeKind.VariableDeclaration:
                     EvaluateVariableDeclaration((BoundVariableDeclaration)node);
                     break;
-                case BoundNodeKine.IfStatement:
+                case BoundNodeKind.IfStatement:
                     EvaluateIfStatement((BoundIfStatement)node);
                     break;
-                case BoundNodeKine.ExpressionStatement:
+                case BoundNodeKind.ExpressionStatement:
                     EvaluateExpressionStatement((BoundExpressionStatement)node);
                     break;
                 default:
@@ -73,15 +73,15 @@ namespace SmartCalc.Global.Compilation
         {
             switch (node.Kind)
             {
-                case BoundNodeKine.LiteralExpression:
+                case BoundNodeKind.LiteralExpression:
                     return EvaluateLiteralExpression((BoundLiteralExpression)node);
-                case BoundNodeKine.VariableExpression:
+                case BoundNodeKind.VariableExpression:
                     return EvaluateVariableExpression((BoundVariableExpression)node);
-                case BoundNodeKine.AssignmentExpression:
+                case BoundNodeKind.AssignmentExpression:
                     return EvaluateAssignmentExpression((BoundAssignmentExpression)node);
-                case BoundNodeKine.UnaryExpression:
+                case BoundNodeKind.UnaryExpression:
                     return EvaluateUnaryExpression((BoundUnaryExpression)node);
-                case BoundNodeKine.BinaryExpression:
+                case BoundNodeKind.BinaryExpression:
                     return EvaluateBinaryExpression((BoundBinaryExpression)node);
                 default:
                     throw new Exception($"Unexpected node '{node.Kind}'.");
