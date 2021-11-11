@@ -21,11 +21,17 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         }
         public bool TryLookUp(string name, out VariableSymbol variable)
         {
-            if(_variables.TryGetValue(name, out variable))
-                return true;
-            if(Parent == null)
+            if (name != null)
+            {
+                if (_variables.TryGetValue(name, out variable))
+                    return true;
+                if (Parent == null)
+                    return false;                
+            }else{
+                variable = null;
                 return false;
-            return Parent.TryLookUp(name, out variable);
+            }
+            return Parent.TryLookUp(name, out variable);            
         }
         public ImmutableArray<VariableSymbol> GetDeclaredVariables()
         {

@@ -200,4 +200,3 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
 
     }
 }
-    

@@ -75,6 +75,7 @@ namespace SmartCalc.Global.Compilation
             var tType = toType.ToString().Split('.')[1];
             var message = $"Cannot convert '{fType}' type to '{tType}' type.";
             Report(span, message);
+
         }
 
         public void ReportVariableAlreadyDeclared(TextSpan span, string name)
@@ -85,7 +86,7 @@ namespace SmartCalc.Global.Compilation
 
         public void ReportCannotAssign(TextSpan span, string name)
         {
-            var message = $"Variable '{name}' is ready only and cannot be assigned to.";
+            var message = $"Variable '{name}' is read-only and cannot be assigned to.";
             Report(span, message);
         }
     }

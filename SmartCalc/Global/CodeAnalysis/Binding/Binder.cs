@@ -58,6 +58,8 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
                     return BindBlockStatement((BlockStatementSyntax)syntax);
                 case SyntaxKind.VariableDeclaration:
                     return BindVariableDeclaration((VariableDeclarationSyntax)syntax);
+                case SyntaxKind.IfStatement:
+                    return BindIfStatement((IfStatementSyntax)syntax);
                 case SyntaxKind.ExpressionStatement:
                     return BindExpressionStatement((ExpressionStatementSyntax)syntax);
 
@@ -89,13 +91,34 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
 
             if (!_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDeclared(syntax.Identifier.Span, name);
-            return new BoundVariableDeclaration(variable,intitializer);
+
+            return new BoundVariableDeclaration(variable, intitializer);
+        }
+        private BoundStatement BindIfStatement(IfStatementSyntax syntax)
+        {
+            var condition = BindExpression(syntax.Condition, typeof(bool));
+            var thenStatement = BindStatement(syntax.ThenStatement);
+            var elseStatement = syntax.ElseClause == null 
+                                                  ? null
+                                                  : BindStatement(syntax.ElseClause.ElseStatement);
+            
+            return new BoundIfStatement(condition,thenStatement,elseStatement);
+
+
 
         }
         private BoundExpressionStatement BindExpressionStatement(ExpressionStatementSyntax syntax)
         {
             var expression = BindExpression(syntax.Expression);
             return new BoundExpressionStatement(expression);
+        }
+
+        private BoundExpression BindExpression(ExpressionSyntax syntax, Type targetType)
+        {
+            var result = BindExpression(syntax);
+            if(result.Type != targetType)
+                _diagnostics.ReportCannotConvert(syntax.Span,result.Type,targetType);
+            return result;
         }
 
         private BoundExpression BindExpression(ExpressionSyntax syntax)
@@ -147,9 +170,9 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             if (!_scope.TryLookUp(name, out var variable))
             {
                 _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
-                return boundExpression;                
+                return boundExpression;
             }
-            if(variable.IsReadOnly)
+            if (variable.IsReadOnly)
                 _diagnostics.ReportCannotAssign(syntax.EqaulsToken.Span, name);
 
             if (boundExpression.Type != variable.Type)

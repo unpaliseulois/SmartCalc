@@ -32,7 +32,7 @@ namespace SmartCalc.Tests.CodeAnalysis
         [InlineData("4 <= 5", true)]
         [InlineData("5 <= 4", false)]
 
-         [InlineData("4 > 3", true)]
+        [InlineData("4 > 3", true)]
         [InlineData("4 > 5", false)]
         [InlineData("4 >= 4", true)]
         [InlineData("5 >= 5", true)]
@@ -52,22 +52,29 @@ namespace SmartCalc.Tests.CodeAnalysis
         [InlineData("true & true", true)]
         [InlineData("true & false", false)]
 
-        [InlineData("true && false", false)]
+        [InlineData("true && false", false)]        
         [InlineData("true && true", true)]
 
         [InlineData("false | false", false)]
         [InlineData("false | true", true)]
 
-        [InlineData("true || false", true)]
+        [InlineData("true || false", true)]        
         [InlineData("false || false", false)]
 
         [InlineData("{ var a = 0 ( a = 10 ) * a }", 100)]
 
-        public void SyntaxFact_GetText_RoundTrips(string text, object expectedResult)
-        {
-            AssertValue(text, expectedResult);
-        }       
+       //*
+        [InlineData("{ var a = 0 if a == 0 a = 10 a }", 10)]
+        [InlineData("{ var a = 0 if a == 4 a = 10 a }", 0)]
 
+        [InlineData("{ var a = 0 if a == 0 a = 10 else a = 5 a }", 10)]
+        [InlineData("{ var a = 0 if a == 4 a = 10 else a = 5 a }", 5)]
+        //*/
+                
+        public void Evaluator_Computes_CorrectValues(string text, object expectedValue)
+        {
+            AssertValue(text,  expectedValue);
+        }
         [Fact]
         private void Evaluator_VariableDeclaration_Reports_Redeclaration()
         {
@@ -91,7 +98,7 @@ namespace SmartCalc.Tests.CodeAnalysis
         [Fact]
         private void Evaluator_Name_Reports_Undifined()
         {
-            var text = @"[x] * 10"; 
+            var text = @"[x] * 10";
             var diagnostics = @"
                 Variable 'x' doesn't exist.
             ";
@@ -108,12 +115,12 @@ namespace SmartCalc.Tests.CodeAnalysis
                 }
             ";
             var diagnostics = @"
-                Variable 'x' is ready only and cannot be assigned to.
+                Variable 'x' is read-only and cannot be assigned to.
             ";
 
             AssertDiagnostics(text, diagnostics);
         }
-         [Fact]
+        [Fact]
         private void Evaluator_Assigned_Reports_CannotConvert()
         {
             var text = @"
@@ -133,7 +140,7 @@ namespace SmartCalc.Tests.CodeAnalysis
         private void Evaluator_Unary_Reports_Undefined()
         {
             var text = @"[+]true";
-               
+
 
             var diagnostics = @"
                 Unary operator '+' is not defined for type 'Boolean'.
@@ -145,7 +152,7 @@ namespace SmartCalc.Tests.CodeAnalysis
         private void Evaluator_Binary_Reports_Undefined()
         {
             var text = @"true [*] true";
-               
+
 
             var diagnostics = @"
                 Binary operator '*' is not defined for types 'Boolean' and 'Boolean'.
@@ -153,7 +160,7 @@ namespace SmartCalc.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
-         private static void AssertValue(string text, object expectedResult)
+        private static void AssertValue(string text, object expectedValue)
         {
             var syntaxTree = SyntaxTree.Parse(text);
             var compliation = new Compilation(syntaxTree);
@@ -161,7 +168,7 @@ namespace SmartCalc.Tests.CodeAnalysis
             var result = compliation.Evaluate(variables);
 
             Assert.Empty(result.Diagnostics);
-            Assert.Equal(expectedResult, result.Value);
+            Assert.Equal(expectedValue, result.Value);
         }
         private void AssertDiagnostics(string text, string diagnosticText)
         {
@@ -186,7 +193,6 @@ namespace SmartCalc.Tests.CodeAnalysis
                 var expectedSpan = annotadedText.Spans[i];
                 var actualSpan = result.Diagnostics[i].Span;
                 Assert.Equal(expectedSpan, actualSpan);
-
             }
         }
     }

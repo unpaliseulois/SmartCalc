@@ -1,10 +1,10 @@
+using SmartCalc.Global.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using static System.Environment;
-using SmartCalc.Global.CodeAnalysis.Text;
 using System.Text;
+using static System.Environment;
 
 namespace SmartCalc.Tests.CodeAnalysis
 {
@@ -51,6 +51,7 @@ namespace SmartCalc.Tests.CodeAnalysis
 
             if (startStack.Count != 0)
                 throw new ArgumentException("Missing ']' in text", nameof(text));
+                
             return new AnnotadedText(textBuilder.ToString(), spanBuilder.ToImmutable());
         }
         private static string Unindent(string text)

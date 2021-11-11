@@ -135,12 +135,16 @@ namespace SmartCalc.Main
                 var syntaxTree = SyntaxTree.Parse(text);
 
                 if (!isBlank && syntaxTree.Diagnostics.Any())
+                {
+                    input = string.Empty;
                     continue;
+                }
                 var compilation = previous == null ? new Compilation(syntaxTree)
                                                    : previous.ContinueWith(syntaxTree);
-
+                
                 var result = compilation.Evaluate(variables);
                 var diagnostics = result.Diagnostics;
+
                 if (displayTree)
                 {
                     ForegroundColor = DarkCyan;

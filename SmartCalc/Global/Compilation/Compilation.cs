@@ -17,6 +17,7 @@ namespace SmartCalc.Global.Compilation
         public Compilation(SyntaxTree syntaxTree)
             : this(null, syntaxTree)
         {
+            //SyntaxTree = syntaxTree;
         }
         private Compilation(Compilation previous, SyntaxTree syntaxTree)
         {

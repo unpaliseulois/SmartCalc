@@ -13,13 +13,13 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         SlashToken,
         PlusToken,
         MinusToken,
+        BangToken,
         AmpersandAmpersandToken,
         PipePipeToken,
         PipeToken,
         AmpersandToken,
         EqualsEqualsToken,
         EqualsToken,
-        BangToken,
         BangEqualsToken,
         LessToken,
         LessOrEqualsToken,
@@ -32,17 +32,21 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         ClosePraceToken,
         //ComaToken,        
 
-        // Keywords
+        // Keywords        
+        ElseKeyword,
         FalseKeyword,
+        IfKeyword,
         LetKeyword,
         TrueKeyword,
         VarKeyword,
 
         // Nodes        
         CompilationUnit,
+        ElseClause,
 
         // Statements
-        BlockStatement,        
+        BlockStatement,
+        IfStatement,        
         VariableDeclaration,
         ExpressionStatement,
 
@@ -52,7 +56,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         AssignmentExpression,
         UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression        
+        ParenthesizedExpression
     }
 }
 

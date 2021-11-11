@@ -81,7 +81,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
             new BoundBinaryOperator(SyntaxKind.BangEqualsToken,
                 BoundBinaryOperatorKind.NotEquals,typeof(bool)),
         };
-        
+
         public static BoundBinaryOperator Bind(SyntaxKind syntaxKind, Type leftType, Type rightType)
         {
             foreach (var op in _operators)

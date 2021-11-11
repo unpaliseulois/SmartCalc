@@ -11,7 +11,8 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         VariableExpression,
         AssignmentExpression,
         UnaryExpression,
-        BinaryExpression
+        BinaryExpression,
+        IfStatement
     }
 
 }

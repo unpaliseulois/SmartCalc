@@ -52,8 +52,12 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             switch (text)
             {
+                case "else":
+                    return SyntaxKind.ElseKeyword;
                 case "false":
                     return SyntaxKind.FalseKeyword;
+                case "if":
+                    return SyntaxKind.IfKeyword;
                 case "let":
                     return SyntaxKind.LetKeyword;
                 case "true":
@@ -100,16 +104,6 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "-";
                 case SyntaxKind.BangToken:
                     return "!";
-                case SyntaxKind.BangEqualsToken:
-                    return "!=";
-                case SyntaxKind.LessToken:
-                    return "<";
-                case SyntaxKind.LessOrEqualsToken:
-                    return "<=";                
-                case SyntaxKind.GreaterToken:
-                    return ">";
-                case SyntaxKind.GreaterOrEqualsToken:
-                    return ">=";
                 case SyntaxKind.AmpersandAmpersandToken:
                     return "&&";
                 case SyntaxKind.PipePipeToken:
@@ -122,6 +116,16 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "==";
                 case SyntaxKind.EqualsToken:
                     return "=";
+                case SyntaxKind.BangEqualsToken:
+                    return "!=";
+                case SyntaxKind.LessToken:
+                    return "<";
+                case SyntaxKind.LessOrEqualsToken:
+                    return "<=";
+                case SyntaxKind.GreaterToken:
+                    return ">";
+                case SyntaxKind.GreaterOrEqualsToken:
+                    return ">=";
                 case SyntaxKind.OpenPraceToken:
                     return "{";
                 case SyntaxKind.ClosePraceToken:
@@ -130,8 +134,12 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "(";
                 case SyntaxKind.CloseParenthesisToken:
                     return ")";
+                case SyntaxKind.ElseKeyword:
+                    return "else";
                 case SyntaxKind.FalseKeyword:
                     return "false";
+                case SyntaxKind.IfKeyword:
+                    return "if";
                 case SyntaxKind.LetKeyword:
                     return "let";
                 case SyntaxKind.TrueKeyword:
