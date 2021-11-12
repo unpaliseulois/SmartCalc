@@ -73,7 +73,6 @@ namespace SmartCalc.Tests.CodeAnalysis
         [InlineData("{ var i = 10 var result = 0 while i > 0 { result = result + i i = i - 1 } result}", 55)]
         [InlineData("{ var result = 0 for i = 1 to 10 { result = result + i} result }", 55)]
 
-
         public void Evaluator_Computes_CorrectValues(string text, object expectedValue)
         {
             AssertValue(text, expectedValue);
@@ -99,7 +98,7 @@ namespace SmartCalc.Tests.CodeAnalysis
             AssertDiagnostics(text, diagnostics);
         }
         [Fact]
-        private void Evaluator_Name_Reports_Undifined()
+        private void Evaluator_NameExpression_Reports_Undifined()
         {
             var text = @"[x] * 10";
             var diagnostics = @"
@@ -108,8 +107,42 @@ namespace SmartCalc.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
+                [Fact]
+        private void Evaluator_UnaryExpression_Reports_Undefined()
+        {
+            var text = @"[+]true";
+
+
+            var diagnostics = @"
+                Unary operator '+' is not defined for type 'Boolean'.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
         [Fact]
-        private void Evaluator_Assigned_Reports_CannotAssign()
+        private void Evaluator_BinaryExpression_Reports_Undefined()
+        {
+            var text = @"true [*] true";
+
+
+            var diagnostics = @"
+                Binary operator '*' is not defined for types 'Boolean' and 'Boolean'.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+         [Fact]
+        private void Evaluator_AssignmentExpression_Reports_Undifined()
+        {
+            var text = @"[x] = 10";
+            var diagnostics = @"
+                Variable 'x' doesn't exist.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+        [Fact]
+        private void Evaluator_AssignmentExpression_Reports_CannotAssign()
         {
             var text = @"
                 {
@@ -124,7 +157,7 @@ namespace SmartCalc.Tests.CodeAnalysis
             AssertDiagnostics(text, diagnostics);
         }
         [Fact]
-        private void Evaluator_Assigned_Reports_CannotConvert()
+        private void Evaluator_AssignmentExpression_Reports_CannotConvert()
         {
             var text = @"
                 {
@@ -202,30 +235,6 @@ namespace SmartCalc.Tests.CodeAnalysis
 
             var diagnostics = @"
                 Cannot convert 'Boolean' type to 'Int32' type.
-            ";
-
-            AssertDiagnostics(text, diagnostics);
-        }
-        [Fact]
-        private void Evaluator_Unary_Reports_Undefined()
-        {
-            var text = @"[+]true";
-
-
-            var diagnostics = @"
-                Unary operator '+' is not defined for type 'Boolean'.
-            ";
-
-            AssertDiagnostics(text, diagnostics);
-        }
-        [Fact]
-        private void Evaluator_Binary_Reports_Undefined()
-        {
-            var text = @"true [*] true";
-
-
-            var diagnostics = @"
-                Binary operator '*' is not defined for types 'Boolean' and 'Boolean'.
             ";
 
             AssertDiagnostics(text, diagnostics);
