@@ -140,6 +140,73 @@ namespace SmartCalc.Tests.CodeAnalysis
             AssertDiagnostics(text, diagnostics);
         }
         [Fact]
+        private void Evaluator_IfStatement_Reports_CannotConvert()
+        {
+            var text = @"
+                {
+                    var x = 0
+                    if [10]
+                        x = 10
+                }
+            ";
+
+            var diagnostics = @"
+                Cannot convert 'Int32' type to 'Boolean' type.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+        [Fact]
+        private void Evaluator_WhileStatement_Reports_CannotConvert()
+        {
+            var text = @"
+                {
+                    var x = 0
+                    while [10]
+                        x = 10
+                }
+            ";
+
+            var diagnostics = @"
+                Cannot convert 'Int32' type to 'Boolean' type.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+        [Fact]
+        private void Evaluator_ForStatement_Reports_CannotConvert_LowerBound()
+        {
+            var text = @"
+                {
+                    var result = 0
+                    for i = [false] to 10
+                        result = result + i
+                }
+            ";
+
+            var diagnostics = @"
+                Cannot convert 'Boolean' type to 'Int32' type.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+        private void Evaluator_ForStatement_Reports_CannotConvert_UpperBound()
+        {
+            var text = @"
+                {
+                    var result = 0
+                    for i = 0 to [true]
+                        result = result + i
+                }
+            ";
+
+            var diagnostics = @"
+                Cannot convert 'Boolean' type to 'Int32' type.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+        [Fact]
         private void Evaluator_Unary_Reports_Undefined()
         {
             var text = @"[+]true";
