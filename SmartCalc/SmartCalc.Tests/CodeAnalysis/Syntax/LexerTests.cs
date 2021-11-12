@@ -14,21 +14,21 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
         {
 
             var tokenKinds = Enum.GetValues(typeof(SyntaxKind))
-                                 .Cast<SyntaxKind>()                                  
+                                 .Cast<SyntaxKind>()
                                  .Where(k => k.ToString().EndsWith("Keyword") ||
                                               k.ToString().EndsWith("Token"))
                                  .ToList();
-            
+
             var testedTokenKinds = GetTokens().Concat(GetSeparators())
                                               .Select(t => t.kind);
-        
+
             var untestedTokenKinds = new SortedSet<SyntaxKind>(tokenKinds);
             untestedTokenKinds.Remove(SyntaxKind.BadToken);
             untestedTokenKinds.Remove(SyntaxKind.EndOfFileToken);
             untestedTokenKinds.ExceptWith(testedTokenKinds);
 
             Assert.Empty(untestedTokenKinds);
-            
+
         }
         [Theory]
         [MemberData(nameof(GetTokensData))]
@@ -48,12 +48,19 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
             var tokens = SyntaxTree.ParseTokens(text).ToArray();
 
             Assert.Equal(2, tokens.Length);
-
+            /*/
             Assert.Equal(tokens[0].Kind, t1Kind);
             Assert.Equal(tokens[0].Text, t1Text);
 
             Assert.Equal(tokens[1].Kind, t2Kind);
             Assert.Equal(tokens[1].Text, t2Text);
+            //*/
+
+            Assert.Equal(t1Kind, tokens[0].Kind);
+            Assert.Equal(t1Text, tokens[0].Text);
+
+            Assert.Equal(t2Kind, tokens[1].Kind);
+            Assert.Equal(t2Text, tokens[1].Text);
         }
         [Theory]
         [MemberData(nameof(GetTokenPairsWithSeparatorData))]
@@ -65,7 +72,7 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
             var tokens = SyntaxTree.ParseTokens(text).ToArray();
 
             Assert.Equal(3, tokens.Length);
-
+            /*/
             Assert.Equal(tokens[0].Kind, t1Kind);
             Assert.Equal(tokens[0].Text, t1Text);
 
@@ -74,6 +81,15 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
 
             Assert.Equal(tokens[2].Kind, t2Kind);
             Assert.Equal(tokens[2].Text, t2Text);
+            //*/
+            Assert.Equal(t1Kind, tokens[0].Kind);
+            Assert.Equal(t1Text, tokens[0].Text);
+
+            Assert.Equal(separatorKind, tokens[1].Kind);
+            Assert.Equal(separatorText, tokens[1].Text);
+
+            Assert.Equal(t2Kind, tokens[2].Kind);
+            Assert.Equal(t2Text, tokens[2].Text);
         }
         public static IEnumerable<Object[]> GetTokensData()
         {
@@ -100,7 +116,7 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
         {
             var fixedTokens = Enum.GetValues(typeof(SyntaxKind))
                                   .Cast<SyntaxKind>()
-                                  .Select(k => (kind: k, text:SyntaxFacts.GetText(k)))
+                                  .Select(k => (kind: k, text: SyntaxFacts.GetText(k)))
                                   .Where(t => t.text != null);
 
             var dynamicTokens = new[]
@@ -160,11 +176,11 @@ namespace SmartCalc.Tests.CodeAnalysis.Syntax
                 return true;
             if (t1Kind == SyntaxKind.LessToken && t2Kind == SyntaxKind.EqualsToken)
                 return true;
-             if (t1Kind == SyntaxKind.LessToken && t2Kind == SyntaxKind.EqualsEqualsToken)
+            if (t1Kind == SyntaxKind.LessToken && t2Kind == SyntaxKind.EqualsEqualsToken)
                 return true;
-                if (t1Kind == SyntaxKind.GreaterToken && t2Kind == SyntaxKind.EqualsToken)
+            if (t1Kind == SyntaxKind.GreaterToken && t2Kind == SyntaxKind.EqualsToken)
                 return true;
-             if (t1Kind == SyntaxKind.GreaterToken && t2Kind == SyntaxKind.EqualsEqualsToken)
+            if (t1Kind == SyntaxKind.GreaterToken && t2Kind == SyntaxKind.EqualsEqualsToken)
                 return true;
             // TODO: More cases
             return false;

@@ -1,0 +1,2 @@
+cmd /c start /MAX /i cmd /c "run.cmd"
+

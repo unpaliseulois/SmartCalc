@@ -1,2 +1,6 @@
 #!/bin/bash
-cd SmartCalc/Main/ && clear && dotnet build && clear && dotnet run && cd ../.. && clear
+project="SmartCalc/Main/Main.csproj"
+clear
+dotnet build $project
+clear
+dotnet --project run $project

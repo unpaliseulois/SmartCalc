@@ -9,11 +9,10 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         private SyntaxTree(SourceText text)
         {
             var parser = new Parser(text);
-            var root = parser.ParseCompilationUnit();
-            var diagnostics = parser.Diagnostics.ToImmutableArray();
+            var root = parser.ParseCompilationUnit();            
 
             Text = text;
-            Diagnostics = diagnostics;
+            Diagnostics = parser.Diagnostics.ToImmutableArray();
             Root = root;
         }
 
