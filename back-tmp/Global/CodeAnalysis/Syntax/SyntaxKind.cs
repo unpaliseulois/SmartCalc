@@ -28,8 +28,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         OpenParenthesisToken,
         CloseParenthesisToken,
         IdentifierToken,
-        OpenPraceToken,
-        ClosePraceToken,
+        OpenBraceToken,
+        CloseBraceToken,
         //ComaToken,        
 
         // Keywords        

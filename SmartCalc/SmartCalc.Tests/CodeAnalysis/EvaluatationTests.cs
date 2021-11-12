@@ -107,7 +107,17 @@ namespace SmartCalc.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
-                [Fact]
+        [Fact]
+        private void Evaluator_NameExpression_Reports_NoErrorForInsertedToken()
+        {
+            var text = @"[]";
+            var diagnostics = @"
+                Unexpected token 'EndOfFileToken', expected 'IdentifierToken'.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }        
+        [Fact]
         private void Evaluator_UnaryExpression_Reports_Undefined()
         {
             var text = @"[+]true";
@@ -131,7 +141,7 @@ namespace SmartCalc.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
-         [Fact]
+        [Fact]
         private void Evaluator_AssignmentExpression_Reports_Undifined()
         {
             var text = @"[x] = 10";
@@ -168,6 +178,20 @@ namespace SmartCalc.Tests.CodeAnalysis
 
             var diagnostics = @"
                 Cannot convert 'Boolean' type to 'Int32' type.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+        [Fact]
+        private void Evaluator_BlockStatement_NoInfinitLoop()
+        {
+            var text = @"{
+                [)][]
+            ";
+
+            var diagnostics = @"
+                Unexpected token 'CloseParenthesisToken', expected 'IdentifierToken'.
+                Unexpected token 'EndOfFileToken', expected 'CloseBraceToken'.
             ";
 
             AssertDiagnostics(text, diagnostics);

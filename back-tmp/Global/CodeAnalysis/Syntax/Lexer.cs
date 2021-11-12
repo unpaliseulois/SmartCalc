@@ -93,13 +93,13 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     break;
                 case '{':
                     {
-                        _kind = SyntaxKind.OpenPraceToken;
+                        _kind = SyntaxKind.OpenBraceToken;
                         _position++;
                     }
                     break;
                 case '}':
                     {
-                        _kind = SyntaxKind.ClosePraceToken;
+                        _kind = SyntaxKind.CloseBraceToken;
                         _position++;
                     }
                     break;

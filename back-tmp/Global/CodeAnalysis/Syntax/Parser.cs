@@ -60,7 +60,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             switch (Current.Kind)
             {
-                case SyntaxKind.OpenPraceToken:
+                case SyntaxKind.OpenBraceToken:
                     return ParseBlockStatement();
                 case SyntaxKind.LetKeyword:
                 case SyntaxKind.VarKeyword:
@@ -74,17 +74,17 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         private StatementSyntax ParseBlockStatement()
         {
             var statements = ImmutableArray.CreateBuilder<StatementSyntax>();
-            var openPraceToken = MatchToken(SyntaxKind.OpenPraceToken);
+            var openPraceToken = MatchToken(SyntaxKind.OpenBraceToken);
 
             while (Current.Kind != SyntaxKind.EndOfFileToken
                    &&
-                   Current.Kind != SyntaxKind.ClosePraceToken)
+                   Current.Kind != SyntaxKind.CloseBraceToken)
             {
                 var statement = ParseStatement();
                 statements.Add(statement);
             }
 
-            var closePraceToken = MatchToken(SyntaxKind.ClosePraceToken);
+            var closePraceToken = MatchToken(SyntaxKind.CloseBraceToken);
             return new BlockStatementSyntax(openPraceToken,
                                             statements.ToImmutable(),
                                             closePraceToken);

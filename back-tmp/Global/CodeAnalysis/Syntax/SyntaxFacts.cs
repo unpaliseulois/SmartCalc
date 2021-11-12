@@ -126,9 +126,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "==";
                 case SyntaxKind.EqualsToken:
                     return "=";
-                case SyntaxKind.OpenPraceToken:
+                case SyntaxKind.OpenBraceToken:
                     return "{";
-                case SyntaxKind.ClosePraceToken:
+                case SyntaxKind.CloseBraceToken:
                     return "}";
                 case SyntaxKind.OpenParenthesisToken:
                     return "(";

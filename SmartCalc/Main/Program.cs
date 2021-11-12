@@ -133,12 +133,13 @@ namespace SmartCalc.Main
                 var text = textBuilder.ToString();
                 var textToDisplay = textBuilderToDisplay.ToString();
                 var syntaxTree = SyntaxTree.Parse(text);
-
+                //*
                 if (!isBlank && syntaxTree.Diagnostics.Any())
                 {
                     input = string.Empty;
                     continue;
                 }
+                //*/
                 var compilation = previous == null ? new Compilation(syntaxTree)
                                                    : previous.ContinueWith(syntaxTree);
                 

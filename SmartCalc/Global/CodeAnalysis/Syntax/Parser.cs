@@ -60,7 +60,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         {
             switch (Current.Kind)
             {
-                case SyntaxKind.OpenPraceToken:
+                case SyntaxKind.OpenBraceToken:
                     return ParseBlockStatement();
                 case SyntaxKind.LetKeyword:
                 case SyntaxKind.VarKeyword:
@@ -78,17 +78,21 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         private BlockStatementSyntax ParseBlockStatement()
         {
             var statements = ImmutableArray.CreateBuilder<StatementSyntax>();
-            var openPraceToken = MatchToken(SyntaxKind.OpenPraceToken);
+            var openPraceToken = MatchToken(SyntaxKind.OpenBraceToken);
 
             while (Current.Kind != SyntaxKind.EndOfFileToken
                    &&
-                   Current.Kind != SyntaxKind.ClosePraceToken)
+                   Current.Kind != SyntaxKind.CloseBraceToken)
             {
-                var body = ParseStatement();
-                statements.Add(body);
+                var startToken = Current;
+
+                var statement = ParseStatement();
+                statements.Add(statement);
+                if (Current == startToken)
+                    NextToken();
             }
 
-            var closePraceToken = MatchToken(SyntaxKind.ClosePraceToken);
+            var closePraceToken = MatchToken(SyntaxKind.CloseBraceToken);
             return new BlockStatementSyntax(openPraceToken,
                                             statements.ToImmutable(),
                                             closePraceToken);
@@ -112,7 +116,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
             var toKeyword = MatchToken(SyntaxKind.ToKeyword);
             var upperBound = ParseExpression();
             var body = ParseStatement();
-            return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound,toKeyword, upperBound, body);
+            return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound, toKeyword, upperBound, body);
         }
         private StatementSyntax ParseIfStatement()
         {
