@@ -7,7 +7,6 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         EndOfFileToken,
         WhiteSpaceToken,
         NumberToken,
-        HatToken,
         StarStarToken,
         StarToken,
         SlashToken,
@@ -30,6 +29,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         IdentifierToken,
         OpenBraceToken,
         CloseBraceToken,
+        TildeToken,
+        HatToken,
         //ComaToken,        
 
         // Keywords        
@@ -51,8 +52,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         VariableDeclaration,
         IfStatement,
         WhileStatement,
-        ForStatement,        
-        ToKeyword,      
+        ForStatement,
+        ToKeyword,
         ExpressionStatement,
 
         // Expressions

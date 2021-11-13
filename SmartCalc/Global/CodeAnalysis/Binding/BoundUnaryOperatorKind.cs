@@ -4,7 +4,8 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
     {
         Identity,
         Negation,
-        LogicalNegation
+        LogicalNegation,
+        OnesComplement
     }
 
 }

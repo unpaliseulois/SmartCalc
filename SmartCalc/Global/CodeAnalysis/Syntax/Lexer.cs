@@ -54,13 +54,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                         _kind = SyntaxKind.MinusToken;
                         _position++;
                     }
-                    break;
-                case '^':
-                    {
-                        _kind = SyntaxKind.HatToken;
-                        _position++;
-                    }
-                    break;
+                    break;                
                 case '*':
                     _position++;
                     if (Current == '*')
@@ -100,6 +94,18 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 case '}':
                     {
                         _kind = SyntaxKind.CloseBraceToken;
+                        _position++;
+                    }
+                    break;
+                case '~':
+                    {
+                        _kind = SyntaxKind.TildeToken;
+                        _position++;
+                    }
+                    break;
+                case '^':
+                    {
+                        _kind = SyntaxKind.HatToken;
                         _position++;
                     }
                     break;

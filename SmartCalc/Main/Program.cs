@@ -179,19 +179,17 @@ namespace SmartCalc.Main
                         var sufix = syntaxTree.Text.ToString(sufixSpan);
 
                         ForegroundColor = DarkYellow;
-                        Write($"    [{prefix.Trim()}");
+                        Write($" [{prefix.Trim()}");
                         ForegroundColor = DarkRed;
                         Write($"{error}");
                         ForegroundColor = DarkYellow;
-                        Write($"{sufix}] ");
+                        Write($"{sufix.Trim()}]");
                         ResetColor();
 
                         ForegroundColor = DarkRed;
-                        Write($"    [Row:{rowNumber} - Col:{columnNumber}] :: ");
+                        Write($" [Row:{rowNumber} - Col:{columnNumber}] :: ");
                         WriteLine($"{diagnostic}");
                         ResetColor();
-
-
                     }
                     //WriteLine();                    
                 }

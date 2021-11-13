@@ -12,6 +12,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
                 case SyntaxKind.BangToken:
+                case SyntaxKind.TildeToken:
                     return 7;
                 default:
                     return 0;
@@ -20,8 +21,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
         public static int GetBinaryOperatorPrecedence(this SyntaxKind kind)
         {
             switch (kind)
-            {
-                case SyntaxKind.HatToken:
+            {                
                 case SyntaxKind.StarStarToken:
                     return 6;
                 case SyntaxKind.StarToken:
@@ -42,6 +42,7 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return 2;
                 case SyntaxKind.PipeToken:
                 case SyntaxKind.PipePipeToken:
+                case SyntaxKind.HatToken:
                     return 1;
                 default:
                     return 0;
@@ -110,6 +111,8 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                     return "-";
                 case SyntaxKind.BangToken:
                     return "!";
+                case SyntaxKind.TildeToken:
+                    return "~";
                 case SyntaxKind.AmpersandAmpersandToken:
                     return "&&";
                 case SyntaxKind.PipePipeToken:

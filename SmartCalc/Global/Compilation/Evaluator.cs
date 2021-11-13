@@ -46,7 +46,7 @@ namespace SmartCalc.Global.Compilation
                 default:
                     throw new Exception($"Unexpected node '{node.Kind}'.");
             }
-        }       
+        }
         private void EvaluateVariableDeclaration(BoundVariableDeclaration node)
         {
             var value = EvaluateExpression(node.Initializer);
@@ -63,9 +63,9 @@ namespace SmartCalc.Global.Compilation
         private void EvaluateIfStatement(BoundIfStatement node)
         {
             var condition = (bool)EvaluateExpression(node.Condition);
-            if(condition)
+            if (condition)
                 EvaluateStatement(node.ThenStatement);
-            else if(node.ElseStatement != null)
+            else if (node.ElseStatement != null)
                 EvaluateStatement(node.ElseStatement);
         }
         private void EvaluateWhileStatement(BoundWhileStatement node)
@@ -73,14 +73,14 @@ namespace SmartCalc.Global.Compilation
             while ((bool)EvaluateExpression(node.Condition))
             {
                 EvaluateStatement(node.Body);
-            }            
+            }
         }
         private void EvaluateForStatement(BoundForStatement node)
         {
-            var lowerBound = (int) EvaluateExpression(node.LowerBound);
-            var upperBound = (int) EvaluateExpression(node.UpperBound);          
-            
-            for(var i = lowerBound; i <= upperBound; i++)
+            var lowerBound = (int)EvaluateExpression(node.LowerBound);
+            var upperBound = (int)EvaluateExpression(node.UpperBound);
+
+            for (var i = lowerBound; i <= upperBound; i++)
             {
                 _variables[node.Variable] = i;
                 EvaluateStatement(node.Body);
@@ -122,6 +122,22 @@ namespace SmartCalc.Global.Compilation
                     return (int)left * (int)right;
                 case BoundBinaryOperatorKind.Division:
                     return (int)left / (int)right;
+
+                case BoundBinaryOperatorKind.BitwiseAnd:
+                    if (b.Type == typeof(int))
+                        return (int)left & (int)right;
+                    else
+                        return (bool)left & (bool)right;
+                case BoundBinaryOperatorKind.BitwiseOr:
+                    if (b.Type == typeof(int))
+                        return (int)left | (int)right;
+                    else
+                        return (bool)left | (bool)right;
+                case BoundBinaryOperatorKind.BitwiseXor:
+                    if (b.Type == typeof(int))
+                        return (int)left ^ (int)right;
+                    else
+                        return (bool)left ^ (bool)right;
                 case BoundBinaryOperatorKind.Addition:
                     return (int)left + (int)right;
                 case BoundBinaryOperatorKind.Substraction:
@@ -157,6 +173,8 @@ namespace SmartCalc.Global.Compilation
                     return -(int)operand;
                 case BoundUnaryOperatorKind.LogicalNegation:
                     return !(bool)operand;
+                case BoundUnaryOperatorKind.OnesComplement:
+                    return ~(int)operand;
                 default:
                     throw new Exception($"Unexpected unary operator '{u.Op}'.");
             }
