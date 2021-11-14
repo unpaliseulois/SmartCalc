@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 using System.Threading;
 using System.IO;
+using SmartCalc.Global.CodeAnalysis.Lowering;
 
 namespace SmartCalc.Global.Compilation
 {
@@ -50,13 +51,21 @@ namespace SmartCalc.Global.Compilation
             if (diagnostics.Any())
                 return new EvaluationResult(diagnostics, null);
 
-            var evaluator = new Evaluator(GlobalScope.Statement, variables);
+            var statement = GetStatement();
+            var evaluator = new Evaluator(statement, variables);
             var value = evaluator.Evaluate();
             return new EvaluationResult(ImmutableArray<Diagnostic>.Empty, value);
         }
         public void EmitTree(TextWriter writer)
         {
-            GlobalScope.Statement.WriteTo(writer);
+            var statement = GetStatement();
+            statement.WriteTo(writer);
+        }
+
+        private BoundStatement GetStatement()
+        {
+            var result = GlobalScope.Statement;
+            return Lowerer.Lower(result);
         }
     }
 }

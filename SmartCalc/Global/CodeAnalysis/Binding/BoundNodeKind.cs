@@ -9,6 +9,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
         WhileStatement,
         ForStatement,
         VariableDeclaration,
+        
         //Expressions        
         LiteralExpression,
         VariableExpression,
