@@ -54,9 +54,11 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
 
             writer.Write(indent);
 
+            //*
             if (isToConsole)
                 ForegroundColor = DarkGray;
             writer.Write(marker);
+            //*/
 
 
             if (isToConsole)
@@ -65,6 +67,17 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                 {
                     case SyntaxKind.BadToken:
                         ForegroundColor = DarkRed;
+                        break;
+                    case SyntaxKind.BlockStatement:
+                        ForegroundColor = Cyan;
+                        break;
+                    case SyntaxKind.WhileStatement:
+                    case SyntaxKind.ForStatement:
+                        ForegroundColor = Green;
+                        break;
+                    case SyntaxKind.IfStatement:
+                    case SyntaxKind.ElseClause:
+                        ForegroundColor = DarkCyan;
                         break;
                     case SyntaxKind.ParenthesizedExpression:
                         ForegroundColor = DarkMagenta;
@@ -107,10 +120,9 @@ namespace SmartCalc.Global.CodeAnalysis.Syntax
                         ResetColor();
                         break;
                 }
-
             }
 
-
+            //writer.Write(marker);
             writer.Write(node.Kind);
 
             if (node is SyntaxToken t && t.Value != null)

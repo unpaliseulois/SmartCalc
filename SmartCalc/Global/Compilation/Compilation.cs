@@ -6,6 +6,7 @@ using SmartCalc.Global.CodeAnalysis.Binding;
 using System.Collections.Immutable;
 using SmartCalc.Global.CodeAnalysis.Syntax;
 using System.Threading;
+using System.IO;
 
 namespace SmartCalc.Global.Compilation
 {
@@ -52,6 +53,10 @@ namespace SmartCalc.Global.Compilation
             var evaluator = new Evaluator(GlobalScope.Statement, variables);
             var value = evaluator.Evaluate();
             return new EvaluationResult(ImmutableArray<Diagnostic>.Empty, value);
+        }
+        public void EmitTree(TextWriter writer)
+        {
+            GlobalScope.Statement.WriteTo(writer);
         }
     }
 }

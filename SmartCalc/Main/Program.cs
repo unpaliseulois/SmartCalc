@@ -16,6 +16,7 @@ namespace SmartCalc.Main
         private static void Main()
         {
             var displayTree = false;
+            var displayProgram = false;
             var variables = new Dictionary<VariableSymbol, object>();
             var textBuilder = new StringBuilder();
             var textBuilderToDisplay = new StringBuilder();
@@ -98,6 +99,44 @@ namespace SmartCalc.Main
                         WriteLine();
                         continue;
                     }
+                    else if (input.ToLower() == "dp")
+                    {
+                        var msg = string.Empty;
+                        if (displayProgram == false)
+                        {
+                            displayProgram = true;
+                            ForegroundColor = DarkGreen;
+                            msg = "Display bound tree is enabled.";
+                        }
+                        else
+                        {
+                            ForegroundColor = DarkYellow;
+                            msg = "Display bound tree is already enabled.";
+                        }
+                        WriteLine(msg);
+                        ResetColor();
+                        continue;
+                    }
+                    else if (input.ToLower() == "hp")
+                    {
+                        var msg = string.Empty;
+                        WriteLine();
+                        if (displayProgram == true)
+                        {
+                            displayProgram = false;
+                            ForegroundColor = DarkYellow;
+                            msg = "Display bound tree is disabled.";
+                        }
+                        else
+                        {
+                            ForegroundColor = DarkCyan;
+                            msg = "Display bound tree is already disabled.";
+                        }
+                        WriteLine(msg);
+                        ResetColor();
+                        WriteLine();
+                        continue;
+                    }
                     else if (clearCmmands.Contains(input.ToLower()))
                     {
                         Clear();
@@ -142,20 +181,25 @@ namespace SmartCalc.Main
                 //*/
                 var compilation = previous == null ? new Compilation(syntaxTree)
                                                    : previous.ContinueWith(syntaxTree);
-                
+
                 var result = compilation.Evaluate(variables);
                 var diagnostics = result.Diagnostics;
 
                 if (displayTree)
                 {
-                    ForegroundColor = DarkCyan;
+                    //ForegroundColor = DarkCyan;
                     syntaxTree.Root.WriteTo(Console.Out);
-                    ResetColor();
+                    //ResetColor();
+                }
+                if (displayProgram)
+                {
+                    //ForegroundColor = DarkCyan;
+                    compilation.EmitTree(Console.Out);
+                    //ResetColor();
                 }
                 if (!diagnostics.Any())
                 {
                     Write($"\n    ");
-                    FormatResult(textToDisplay);
                     ForegroundColor = Green;
                     Write($"{result.Value}\n");
                     ResetColor();
@@ -201,10 +245,12 @@ namespace SmartCalc.Main
 
         private static void FormatResult(string input)
         {
+            input = input.Trim();
             char[] operators = { '+', '-', '*', '/', '^' };
             char[] parenthesis = { '(', ')' };
+            char last = '=';
             if (!int.TryParse(input, out var result))
-            {                
+            {
                 foreach (char c in input)
                 {
                     if (operators.Contains(c))
