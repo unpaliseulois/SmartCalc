@@ -3,18 +3,21 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
     internal enum BoundNodeKind
     {
         // Statements       
-        ExpressionStatement,
         BlockStatement,
+        VariableDeclaration,
         IfStatement,
         WhileStatement,
-        ForStatement,
-        VariableDeclaration,
+        ForStatement,        
+        GotoStatement,
+        LabelStatement,
+        ConditionalGotoStatement,
+        ExpressionStatement,
         
         //Expressions        
         LiteralExpression,
         VariableExpression,
         AssignmentExpression,
         UnaryExpression,
-        BinaryExpression
+        BinaryExpression,
     }
 }

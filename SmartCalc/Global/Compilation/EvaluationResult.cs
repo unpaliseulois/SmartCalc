@@ -10,7 +10,6 @@ namespace SmartCalc.Global.Compilation
             Diagnostics = diagnostics;
             Value = value;
         }
-
         public ImmutableArray<Diagnostic> Diagnostics { get; }
         public object Value { get; }
     }

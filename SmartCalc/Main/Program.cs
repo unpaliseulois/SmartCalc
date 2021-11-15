@@ -182,9 +182,6 @@ namespace SmartCalc.Main
                 var compilation = previous == null ? new Compilation(syntaxTree)
                                                    : previous.ContinueWith(syntaxTree);
 
-                var result = compilation.Evaluate(variables);
-                var diagnostics = result.Diagnostics;
-
                 if (displayTree)
                 {
                     //ForegroundColor = DarkCyan;
@@ -197,6 +194,9 @@ namespace SmartCalc.Main
                     compilation.EmitTree(Console.Out);
                     //ResetColor();
                 }
+                var result = compilation.Evaluate(variables);
+                var diagnostics = result.Diagnostics;
+
                 if (!diagnostics.Any())
                 {
                     Write($"\n    ");

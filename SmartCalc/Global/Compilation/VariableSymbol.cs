@@ -2,7 +2,7 @@ using System;
 
 namespace SmartCalc.Global.Compilation
 {
-    public sealed class  VariableSymbol
+    public sealed class VariableSymbol
     {
         internal VariableSymbol(string name, bool isReadOnly, Type type)
         {
@@ -14,7 +14,9 @@ namespace SmartCalc.Global.Compilation
         public string Name { get; }
         public bool IsReadOnly { get; }
         public Type Type { get; }
-    }   
+        public override string ToString() => Name;
+        
+    }
 }
 
 

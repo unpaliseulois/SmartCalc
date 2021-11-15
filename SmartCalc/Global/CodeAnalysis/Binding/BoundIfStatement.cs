@@ -1,9 +1,9 @@
 namespace SmartCalc.Global.CodeAnalysis.Binding
 {
-    internal sealed class BoundIfStatement:BoundStatement
+    internal sealed class BoundIfStatement : BoundStatement
     {
         public BoundIfStatement(BoundExpression condition,
-                                BoundStatement thenStatement, 
+                                BoundStatement thenStatement,
                                 BoundStatement elseStatement
                                 )
         {

@@ -55,19 +55,16 @@ namespace SmartCalc.Global.Compilation
 
             var message = $"Binary operator '{operatorText}' is not defined for types '{_leftType}' and '{_rightType}'.";
             Report(span, message);
-
         }
-
         public void ReportUndefinedName(TextSpan span, string name)
         {
             var message = $"Variable '{name}' doesn't exist.";
             Report(span, message);
         }
-
         public void ReportDivisionByZero(TextSpan span, string message)
         {
             Report(span, message);
-        }        
+        }  
 
         public void ReportCannotConvert(TextSpan span, Type fromType, Type toType)
         {
