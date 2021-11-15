@@ -4,7 +4,7 @@ namespace SmartCalc.Global.CodeAnalysis.Binding
 {
     internal sealed class BoundConditionalGotoStatement : BoundStatement
     {
-        public BoundConditionalGotoStatement(LabelSymbol label, BoundExpression condition, bool jumpIfTrue = false)
+        public BoundConditionalGotoStatement(LabelSymbol label, BoundExpression condition, bool jumpIfTrue = true)
         {
             Label = label;
             Condition = condition;

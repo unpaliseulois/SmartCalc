@@ -64,7 +64,7 @@ namespace SmartCalc.Global.CodeAnalysis.Lowering
                 //*/
                 var endLabel = GenerateLabel();
 
-                var gotoFalse = new BoundConditionalGotoStatement(endLabel, node.Condition, true);
+                var gotoFalse = new BoundConditionalGotoStatement(endLabel, node.Condition, false);
                 var endLabelStatement = new BoundLabelStatement(endLabel);
 
                 var result = new BoundBlockStatement(ImmutableArray.Create<BoundStatement>(gotoFalse, node.ThenStatement, endLabelStatement));
@@ -88,7 +88,7 @@ namespace SmartCalc.Global.CodeAnalysis.Lowering
                 var endLabel = GenerateLabel();
                 var elseLabel = GenerateLabel();
 
-                var gotoFalse = new BoundConditionalGotoStatement(elseLabel, node.Condition, true);
+                var gotoFalse = new BoundConditionalGotoStatement(elseLabel, node.Condition, false);
                 var gotoEndStatement = new BoundGotoStatement(endLabel);
                 var elseLabelStatement = new BoundLabelStatement(elseLabel);
                 var endLabelStatement = new BoundLabelStatement(endLabel);
@@ -125,7 +125,8 @@ namespace SmartCalc.Global.CodeAnalysis.Lowering
             var gotoCheck = new BoundGotoStatement(checkLabel);
             var continueLabelStatement = new BoundLabelStatement(continueLabel);
             var checkLabelStatement = new BoundLabelStatement(checkLabel);
-            var gotoTrue = new BoundConditionalGotoStatement(continueLabel, node.Condition, false);
+            //var gotoTrue = new BoundConditionalGotoStatement(continueLabel, node.Condition, false);
+            var gotoTrue = new BoundConditionalGotoStatement(continueLabel, node.Condition);
             var endLabelStatement = new BoundLabelStatement(endLabel);
 
             var result = new BoundBlockStatement(ImmutableArray.Create<BoundStatement>(
@@ -154,12 +155,35 @@ namespace SmartCalc.Global.CodeAnalysis.Lowering
                 }
             }                
             //*/
+
+            /* after modification
+            {
+                var <var> = <lower>
+                let upperBound = <upper>
+                while (<var> <= upperBound)
+                {
+                    <body>
+                    <var> = <var> + 1
+                }
+            }               
+            //*/
             var variableDeclaration = new BoundVariableDeclaration(node.Variable, node.LowerBound);
             var variableExpression = new BoundVariableExpression(node.Variable);
+            // modification +
+            var upperBoundSymbol = new VariableSymbol("upperBound", true, typeof(int));
+            var upperBoundDeclaration = new BoundVariableDeclaration(upperBoundSymbol, node.UpperBound);
+            //
+
             var condition = new BoundBinaryExpression(
                 variableExpression, BoundBinaryOperator.Bind(SyntaxKind.LessOrEqualsToken, typeof(int), typeof(int)),
+            // modification +
+                new BoundVariableExpression(upperBoundSymbol)
+            );
+            //
+            /* modification -
                         node.UpperBound
             );
+            //*/
             var increment = new BoundExpressionStatement(
                 new BoundAssignmentExpression(
                     node.Variable,
@@ -172,8 +196,19 @@ namespace SmartCalc.Global.CodeAnalysis.Lowering
             );
             var whileBody = new BoundBlockStatement(ImmutableArray.Create<BoundStatement>(node.Body, increment));
             var whileStatement = new BoundWhileStatement(condition, whileBody);
+            /* modification -
             var result = new BoundBlockStatement(
                 ImmutableArray.Create<BoundStatement>(variableDeclaration, whileStatement));
+            //*/
+            // modification +
+            var result = new BoundBlockStatement(
+                ImmutableArray.Create<BoundStatement>(
+                    variableDeclaration,
+                    upperBoundDeclaration,
+                    whileStatement
+                    )
+                );
+            //
             return RewriteStatement(result);
         }
     }

@@ -45,7 +45,7 @@ namespace SmartCalc.Global.Compilation
                     case BoundNodeKind.ConditionalGotoStatement:
                         var cgs = (BoundConditionalGotoStatement)s;
                         var condition = (bool)EvaluateExpression(cgs.Condition);
-                        if (condition && !cgs.JumpIfTrue || !condition && cgs.JumpIfTrue)
+                        if (condition == cgs.JumpIfTrue)
                             index = labelToIndex[cgs.Label];
                         else
                             index++;
